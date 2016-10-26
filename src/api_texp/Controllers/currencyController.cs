@@ -35,27 +35,77 @@ namespace api_texp.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var currency = _context.currency.Where(c => c.currencyId == id).FirstOrDefault<currency>();
+
+            if (currency!= null)
+            {
+                return Ok(currency);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]currency value)
         {
+            var currency = new currency();
+
+            currency.name = value.name;
+
+            _context.currency.Add(currency);
+            _context.SaveChanges();
+
+            var send = _context.currency.Where(c => c.currencyId == currency.currencyId).FirstOrDefault<currency>();
+
+            return Ok(send);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]currency value)
         {
+            var currency = _context.currency.Where(c => c.currencyId == id).FirstOrDefault<currency>();
+
+            if (currency != null)
+            {
+                currency.name = value.name;
+
+                _context.SaveChanges();
+
+                var send = _context.currency.Where(c => c.currencyId == currency.currencyId).FirstOrDefault<currency>();
+
+                return Ok(send);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var currency = _context.currency.Where(c => c.currencyId == id).FirstOrDefault<currency>();
+
+            if (currency != null)
+            {
+                currency.isActive = false;
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

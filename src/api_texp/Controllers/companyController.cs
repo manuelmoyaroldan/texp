@@ -22,7 +22,7 @@ namespace api_texp.Controllers
             _logger = loggerFactory.CreateLogger<companyController>();
         }
 
-        // GET: api/values
+        //--------------------- GET: api/values
         [HttpGet]
         public IEnumerable<company> Get()
         {
@@ -33,29 +33,78 @@ namespace api_texp.Controllers
             return companies;
         }
 
-        // GET api/values/5
+        //--------------------- GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var company = _context.company.Where(c => c.companyId == id).FirstOrDefault<company>();
+
+            if (company != null)
+            {
+                return Ok(company);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // POST api/values
+        //--------------------- POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]company value)
         {
+            var company = new company();
+
+            company.name = value.name;
+
+            _context.company.Add(company);
+            _context.SaveChanges();
+
+            var send= _context.company.Where(c => c.companyId == company.companyId).FirstOrDefault<company>();
+
+            return Ok(send);
         }
 
-        // PUT api/values/5
+        //--------------------- PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]company value)
         {
+            var company = _context.company.Where(c => c.companyId == id).FirstOrDefault<company>();
+
+            if (company != null)
+            {
+                company.name = value.name;
+
+                _context.SaveChanges();
+
+                var send = _context.company.Where(c => c.companyId == company.companyId).FirstOrDefault<company>();
+
+                return Ok(send);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // DELETE api/values/5
+        //--------------------- DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var company = _context.company.Where(c => c.companyId == id).FirstOrDefault<company>();
+
+            if (company != null)
+            {
+                company.isActive = false;
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

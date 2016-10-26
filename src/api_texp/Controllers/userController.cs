@@ -24,13 +24,13 @@ namespace api_texp.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<currency> Get()
+        public IEnumerable<user> Get()
         {
-            var currency = _context.currency.ToList<currency>();
+            var users = _context.user.ToList<user>();
 
-            _logger.LogInformation(currency.Count.ToString());
+            _logger.LogInformation(users.Count.ToString());
 
-            return currency;
+            return users;
         }
 
         // GET api/values/5

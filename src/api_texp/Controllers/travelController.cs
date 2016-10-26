@@ -25,7 +25,7 @@ namespace api_texp.Controllers
             _logger = loggerFactory.CreateLogger<travelController>();
         }
 
-        // GET: api/travel
+        //------------------ GET: api/travel
         [HttpGet]
         public IEnumerable<travel> Get()
         {
@@ -36,12 +36,11 @@ namespace api_texp.Controllers
             return travels;
         }
 
-
-        // GET api/travel/5
+        //------------------ GET api/travel/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var travel = _context.travel.Include(t=>t.traveldetail).Where(t => t.travelId == id).FirstOrDefault<travel>();
+            var travel = getById(id);
             
             if (travel != null)
             {
@@ -53,7 +52,7 @@ namespace api_texp.Controllers
             }
         }
 
-        // POST api/values
+        //------------------ POST api/values
         [HttpPost]
         public IActionResult Post([FromBody]travel value)
         {
@@ -64,13 +63,18 @@ namespace api_texp.Controllers
             adddetail(value, travel);
 
             _context.travel.Add(travel);
-            _context.SaveChanges();
+            _context.SaveChanges(); 
 
             _logger.LogInformation("Travel post");
 
-            return Ok();
+            var send = getById(travel.travelId);
+            return new OkObjectResult(JsonConvert.SerializeObject(send, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })); //Loop referencing
+            //return Ok(send);
         }
-
+        private travel getById(int id)
+        {
+             return _context.travel.Include(t => t.traveldetail).Where(t => t.travelId == id).FirstOrDefault<travel>();
+        }
         private void copydata(travel source, travel target)
         {
             target.destination = source.destination;
@@ -95,9 +99,9 @@ namespace api_texp.Controllers
                 target.traveldetail.Add(detail);
             }
         }
-        // PUT api/values/5
+        //------------------ PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]travel value)
+        public IActionResult Put(int id, [FromBody]travel value)
         {
             var travel = _context.travel.Include(t => t.traveldetail).Where(t => t.travelId == id).FirstOrDefault<travel>();
 
@@ -106,12 +110,21 @@ namespace api_texp.Controllers
                 copydata(value, travel);
 
                 _context.SaveChanges();
+
+                var send = getById(id);
+
+                return Ok(send);
             }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
-        // DELETE api/values/5
+        //------------------ DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             var travel = _context.travel.Include(t => t.traveldetail).Where(t => t.travelId == id).FirstOrDefault<travel>();
 
@@ -120,6 +133,12 @@ namespace api_texp.Controllers
                 travel.isActive = false;
 
                 _context.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
             }
         }
 
