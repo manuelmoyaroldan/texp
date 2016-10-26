@@ -22,7 +22,6 @@ namespace api_texp.Controllers
             _logger = loggerFactory.CreateLogger<purposeController>();
         }
 
-        // GET: api/values
         [HttpGet]
         public IEnumerable<purpose> Get()
         {
@@ -33,29 +32,54 @@ namespace api_texp.Controllers
             return purposes;
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public purpose Get(int id)
         {
-            return "value";
+            var purpose = _context.purpose.Where(p => p.purposeId == id).FirstOrDefault<purpose>();
+
+            _logger.LogInformation(id.ToString());
+
+            return purpose;
         }
 
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]purpose value)
         {
+            var purpose = new purpose();
+
+            purpose.purposeId = value.purposeId;
+            purpose.name = value.name;
+            
+            _context.purpose.Add(purpose);
+            _context.SaveChanges();
+
+            _logger.LogInformation("Purpose post");
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]purpose value)
         {
+            var purpose = _context.purpose.Where(p=>p.purposeId==id).FirstOrDefault<purpose>();
+            if (purpose != null)
+            {
+                purpose.purposeId = value.purposeId;
+                purpose.name= value.name;
+
+                _context.SaveChanges();
+            }
+            _logger.LogInformation("Purpose put");
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var purpose = _context.purpose.Where(p => p.purposeId == id).FirstOrDefault<purpose>();
+            if (purpose != null)
+            {
+                purpose.isActive = false;
+                _context.SaveChanges();
+            }
+            _logger.LogInformation("Purpose deactivate");
         }
     }
 }
