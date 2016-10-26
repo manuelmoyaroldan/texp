@@ -11,8 +11,19 @@ namespace model_texp
         public texpContext(DbContextOptions<texpContext> options) : base(options)
         {
         }
+        
+        public DbSet<costcenter> costcenter { get; set; }
+        public DbSet<currency> currency { get; set; }
+        public DbSet<company> company { get; set; }
+        public DbSet<group> group { get; set; }
+        public DbSet<groupuser> groupuser { get; set; }
+        public DbSet<phase> phase { get; set; }
+        public DbSet<purpose> purpose { get; set; }
+        public DbSet<role> role { get; set; }
 
-        public DbSet<role> role {get; set;}
+        public DbSet<traveltype> traveltype { get; set; }
+        public DbSet<travelway> travelway { get; set; }
+        public DbSet<user> user { get; set; }
 
     }
 }

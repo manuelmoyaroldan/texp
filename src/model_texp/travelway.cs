@@ -5,15 +5,10 @@ using System.Threading.Tasks;
 
 namespace model_texp
 {
-    public class costcenter
+    public class travelway
     {
-        public int costcenterId { get; set; }
+        public int travelwayId { get; set; }
         public String name { get; set; }
-        public String code { get; set; }
         public Boolean isActive { get; set; }
-
-        public int companyId { get; set; }
-        public company company { get; set; }
-
     }
 }
