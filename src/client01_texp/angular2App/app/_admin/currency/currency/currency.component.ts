@@ -46,12 +46,12 @@ export class CurrencyComponent implements OnInit {
     }
 
     delete() {
-        this.selected.isActive = false;
-        //this._equipmentService
-        //    .deleteEquipment(this.selected)
-        //    .then(() => {
-        //        this.equipments = this.equipments.filter(h => h.equipmentId !== this.selected.equipmentId);
-        //        //if (this.selected === this.selected) { this.selected = null; }
-        //    });
+        //this.selected.isActive = false;
+        this._Service
+            .delete(this.selected)
+            .then(() => {
+                this.list = this.list.filter(h => h.currencyId !== this.selected.currencyId);
+                //if (this.selected === this.selected) { this.selected = null; }
+            });
     }
 }

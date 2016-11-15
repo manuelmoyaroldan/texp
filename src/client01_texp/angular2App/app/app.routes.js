@@ -37,6 +37,10 @@ export var routes = [
                 loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/company/company.module')['CompanyModule']); }); }); }
             },
             {
+                path: 'currency',
+                loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/currency/currency.module')['CurrencyModule']); }); }); }
+            },
+            {
                 path: 'dashboard',
                 loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./dashboard/dashboard.module')['DashboardModule']); }); }); }
             },
