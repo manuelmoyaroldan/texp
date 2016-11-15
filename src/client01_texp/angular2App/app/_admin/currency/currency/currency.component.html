@@ -1,0 +1,66 @@
+﻿<div>
+    <!--DataTable-->
+    <p-dataTable [value]="list"
+                 selectionMode="single"
+                 [(selection)]="selected" 
+                 scrollable="true"
+                 scrollHeight="200px"
+                 [contextMenu]="cm"
+                 (onRowSelect)="onRowSelect($event)"
+                 (onRowUnselect)="onRowUnselect($event)">
+        <header>Equipment List</header>
+        <footer><div style="text-align: left">Selected: {{selected ? selected.name : 'none'}}</div></footer>
+        <p-column field="currencyId" header="Id"></p-column>
+        <p-column field="name" header="Name"></p-column>
+    </p-dataTable>
+    <p-contextMenu #cm [model]="menu_items"></p-contextMenu>
+    <!--Dialog-->
+    <p-dialog [(visible)]="show_dialog" modal="true" responsive="true">
+        <header>
+            Header content here
+        </header>
+        <form (ngSubmit)="onSubmit()" #customerForm="ngForm" class="editForm" novalidate>
+            <div class="form-group">
+                <label>Name {{selected ? selected.currencyId : any}}</label>
+                <!--<input type="text" pInputText name="name" [(ngModel)]="selected.name" #name="ngModel" />-->
+                <input type="text" class="form-control" name="name" [(ngModel)]="selected.name" #Name="ngModel" required>
+                <div class="alert alert-danger" [hidden]="selected.name">Name is required</div>
+            </div>
+            <!--<equipmenttypeselector [selected]="selected.equipmenttype"></equipmenttypeselector>-->
+            <!--<div class="form-group">
+                <label>State</label>
+                <select class="form-control"
+                        [(ngModel)]="customer.state.abbreviation"
+                        name="state"
+                        required>
+                    <option *ngFor="let state of states" [ngValue]="state.abbreviation">{{state.name}}</option>
+                </select>
+            </div>-->
+            <button class="btn btn-default" (click)="onCancel($event)">Cancel</button>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-success" [disabled]="!customerForm.dirty || !customerForm.valid">Update</button>
+            <div class="alert alert-danger" *ngIf="errorMessage != null">{{ errorMessage }}</div>
+        </form>
+
+        <footer>
+            Footer content here
+        </footer>
+    </p-dialog>
+    <div *ngIf="false">
+        <p-dataList [value]="list">
+            <template let-item>
+                <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-3" style="text-align:center"><i class="fa fa-search" (click)="selectCar(item)" style="cursor:pointer;float:left;"></i></div>
+                        <div class="ui-grid-col-9">
+                            <div class="ui-grid ui-grid-responsive ui-fluid">
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-10">{{item.name}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </p-dataList>
+    </div>
+</div> 

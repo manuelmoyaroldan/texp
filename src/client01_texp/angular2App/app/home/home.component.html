@@ -1,0 +1,11 @@
+<div class="panel-group">
+    <input type="text" pInputText />
+    <p-calendar [(ngModel)]="value"></p-calendar>
+    <p>{{message}}</p>
+
+    <ul>
+        <li *ngFor="let value of values">
+            <span>{{value}} </span>
+        </li>
+    </ul>
+</div>
