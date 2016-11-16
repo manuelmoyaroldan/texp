@@ -5,9 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { CompanyComponent } from './company/company.component';
 import { CompanyRoutingModule } from './company-routing.module';
 
-import { CurrencyModule } from '../currency/currency.module';
+import { SelectorsModule } from '../../_shared/selectors/selectors.module';
+//import { CurrencySelector} from '../currency/currency/currency.selector';
+//import { CurrencyModule } from '../currency/currency.module';
 
-import { DataListModule, DataTableModule, ContextMenuModule, MenuItem, DialogModule, ButtonModule } from 'primeng/primeng';
+import { DataListModule, DataTableModule, ContextMenuModule, MenuItem, DialogModule, ButtonModule, DropdownModule } from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -19,7 +21,8 @@ import { DataListModule, DataTableModule, ContextMenuModule, MenuItem, DialogMod
         , ContextMenuModule
         , DialogModule
         , ButtonModule
-        , CurrencyModule
+        , DropdownModule
+        , SelectorsModule
     ],
     declarations: [CompanyComponent]
 })
