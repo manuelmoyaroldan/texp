@@ -5,24 +5,112 @@ import { Router } from '@angular/router';
 
 import { CompanyService } from './company.service';
 
-import { DataListModule } from 'primeng/primeng';
+import { CurrencyModule } from '../../currency/currency.module';
+
+import { DataListModule, DataTableModule, MenuItem, ContextMenuModule, DialogModule } from 'primeng/primeng';
 
 @Component({
     templateUrl: 'company.component.html'
-    , providers: [CompanyService, DataListModule]
+    , providers: [CompanyService
+        , DataListModule
+        , DataTableModule
+        , ContextMenuModule
+        , DialogModule
+        , CurrencyModule
+    ]
 })
 export class CompanyComponent implements OnInit {
 
-    public test: string = 'test';
-    public companies: any[] = [];
+    public list: any[] = [];
+    public selected: any = {};
+    public current: any = {};
 
-    constructor(private _companyService: CompanyService) { }
+    public menu_items: MenuItem[];
+    public show_dialog: boolean = false;
+
+    constructor(private _Service: CompanyService) { }
 
     ngOnInit(): void {
-        this._companyService
-            .getCompanies()
-            .subscribe(data => this.companies = data,
+        this._Service
+            .getAll()
+            .subscribe(data => this.list = data,
             error => console.log(error),
-            () => console.log('Get all completed.')); 
+            () => console.log('Get all completed.'));
+
+        this.menu_items = [
+            { label: 'Edit', icon: 'fa-edit', command: (event: any) => this.click_Edit() },
+            { label: 'Activate', icon: 'fa-check-circle-o', command: (event: any) => this.activate() },
+            { label: 'DeActivate', icon: 'fa-circle-o', command: (event: any) => this.deactivate() },
+            { label: 'Delete', icon: 'fa-close', command: (event: any) => this.delete() }
+        ];
+    }
+
+    onRowSelect(event: any) {
+    }
+
+    onRowUnselect(event: any) {
+        this.selected = {};
+    }
+
+    click_Edit() {
+        //this.current = Object.assign({}, this.selected);
+        this.current = JSON.parse(JSON.stringify(this.selected));
+
+        this.show_dialog = true;
+    }
+
+    click_Add(event: any) {
+        this.selected = {};
+        this.current = {};
+        this.show_dialog = true;
+    }
+
+    onCancel(event: any) {
+        this.show_dialog = false;
+    }
+
+    onSubmit() {
+        if (this.selected.currencyId != undefined) { //update
+            this._Service.update(this.current)
+                .subscribe(data => { this.show_dialog = false; this.selected = Object.assign({}, this.current); });
+
+        } else { //create
+            this._Service.create(this.current)
+                .subscribe(data => { this.list.push(data); this.show_dialog = false; this.selected = data; });
+        }
+    }
+
+    deactivate() {
+        this._Service.deactivate(this.selected)
+            .subscribe((status: any) => {
+                if (status) {
+                    console.log("updated");
+                    this.selected.isActive = false;
+                }
+                else {
+                    console.log("update error");
+                }
+            });
+    }
+    activate() {
+        this._Service.activate(this.selected)
+            .subscribe((status: any) => {
+                if (status) {
+                    console.log("updated");
+                    this.selected.isActive = true;
+                }
+                else {
+                    console.log("update error");
+                }
+            });
+    }
+
+    delete() {
+        this._Service
+            .delete(this.selected)
+            .then(() => {
+                this.list = this.list.filter(h => h.currencyId !== this.selected.currencyId);
+                this.selected = {};
+            });
     }
 }

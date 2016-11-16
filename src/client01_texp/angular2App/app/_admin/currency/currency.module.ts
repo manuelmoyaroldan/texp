@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { CurrencyComponent } from './currency/currency.component';
+import { CurrencySelector } from './currency/currency.selector';
 import { CurrencyRoutingModule } from './currency-routing.module';
 
-import { DataListModule, DataTableModule, ContextMenuModule, MenuItem, DialogModule } from 'primeng/primeng';
+import { DataListModule, DataTableModule, ContextMenuModule, MenuItem, DialogModule, ButtonModule, DropdownModule, SelectItem } from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -16,7 +17,9 @@ import { DataListModule, DataTableModule, ContextMenuModule, MenuItem, DialogMod
         , DataTableModule
         , ContextMenuModule
         , DialogModule
+        , ButtonModule
+        , DropdownModule
     ],
-    declarations: [CurrencyComponent]
+    declarations: [CurrencyComponent, CurrencySelector]
 })
 export class CurrencyModule { }

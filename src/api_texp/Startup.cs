@@ -37,6 +37,15 @@ namespace api_texp
             services.AddDbContext<texpContext>(
                 options => { options.UseSqlite($"Data Source={_env.ContentRootPath}/texp_lite.db"); });
 
+
+            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
+
+            policy.Headers.Add("*");
+            policy.Methods.Add("*");
+            policy.Origins.Add("*");
+
+            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
+
             // Add framework services.
             services.AddMvc();
         }
@@ -46,6 +55,8 @@ namespace api_texp
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging")); //from appsettings.json
             loggerFactory.AddDebug();
+
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
             app.UseMvc();
         }

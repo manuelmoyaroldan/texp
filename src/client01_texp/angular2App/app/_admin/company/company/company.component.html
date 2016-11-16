@@ -1,6 +1,48 @@
 ﻿<div>
-    company list {{test}}
+    <!--DataTable-->
+    <p-dataTable [value]="list"
+                 selectionMode="single"
+                 [(selection)]="selected"
+                 scrollable="true"
+                 scrollHeight="200px"
+                 [contextMenu]="cm"
+                 (onRowSelect)="onRowSelect($event)"
+                 (onRowUnselect)="onRowUnselect($event)">
+        <header>Company List</header>
+        <footer>
+            <button pButton type="text" (click)="click_Add()" icon="fa-check" label="Add"></button>
+        </footer>
+        <p-column field="companyId" header="Id"></p-column>
+        <p-column field="name" header="Name"></p-column>
+        <!--<p-column field="currency.name" header="Currency"></p-column>--> 
+        <p-column field="isActive" header="Active"></p-column>
+    </p-dataTable>
+    <p-contextMenu #cm [model]="menu_items"></p-contextMenu>
+    
+    <!--Dialog-->
+    <p-dialog [(visible)]="show_dialog" modal="true" responsive="true" draggable="false" resizable="false">
+        <header>
+            Header content here
+        </header>
+        <form (ngSubmit)="onSubmit()" #customerForm="ngForm" class="editForm" novalidate>
 
+            <div class="form-group">
+                <label>Name {{current ? current.currencyId : any}}</label>
+                <input type="text" class="form-control" name="name" [(ngModel)]="current.name" #Name="ngModel" required>
+                <div class="alert alert-danger" [hidden]="current.name">Name is required</div>
+            </div>
+            <!--<currencyselector [selected]="selected.equipmenttype"></currencyselector>-->
+            <currencyselector ></currencyselector>
+        </form>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button class="btn btn-default" (click)="onCancel($event)">Cancel</button>
+                <button class="btn btn-success" [disabled]="!customerForm.dirty || !customerForm.valid" (click)="onSubmit()">Update</button>
+            </div>
+        </footer>
+    </p-dialog>
+    
+    <!--DataList-->
     <p-dataList [value]="companies">
         <template let-company>
             <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">

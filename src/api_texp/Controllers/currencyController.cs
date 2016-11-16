@@ -57,6 +57,7 @@ namespace api_texp.Controllers
             var currency = new currency();
 
             currency.name = value.name;
+            currency.isActive = true;
 
             _context.currency.Add(currency);
             _context.SaveChanges();
@@ -88,6 +89,52 @@ namespace api_texp.Controllers
             }
         }
 
+
+        // DEACTIVATE
+        [Route("deactivate/{id}")]
+        [HttpPut()]
+        public IActionResult deactivate(int id, [FromBody]currency value)
+        {
+            var currency = _context.currency.Where(c => c.currencyId == id).FirstOrDefault<currency>();
+
+            if (currency != null)
+            {
+                currency.isActive = false;
+
+                _context.SaveChanges();
+
+                return Ok(currency);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        // DEACTIVATE
+        [Route("activate/{id}")]
+        [HttpPut()]
+        public IActionResult activate(int id, [FromBody]currency value)
+        {
+            var currency = _context.currency.Where(c => c.currencyId == id).FirstOrDefault<currency>();
+
+            if (currency != null)
+            {
+                currency.isActive = true;
+
+                _context.SaveChanges();
+
+                return Ok(currency);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -96,7 +143,7 @@ namespace api_texp.Controllers
 
             if (currency != null)
             {
-                currency.isActive = false;
+                _context.Remove(currency);
 
                 _context.SaveChanges();
 

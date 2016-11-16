@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 
-import { CurrencyService } from './currency.service';
+import { CurrencyService } from './currency.service'; 
 
 import { DataListModule, DataTableModule, MenuItem, ContextMenuModule, DialogModule } from 'primeng/primeng';
+
 
 @Component({
     templateUrl: 'currency.component.html'
@@ -15,6 +16,7 @@ export class CurrencyComponent implements OnInit {
 
     public list: any[] = [];
     public selected: any = {};
+    public current: any = {};
 
     public menu_items: MenuItem[];
     public show_dialog: boolean = false;
@@ -29,7 +31,9 @@ export class CurrencyComponent implements OnInit {
             () => console.log('Get all completed.')); 
 
         this.menu_items = [
-            { label: 'View', icon: 'fa-search', command: (event: any) => this.showDialog() },
+            { label: 'Edit', icon: 'fa-edit', command: (event: any) => this.click_Edit() },
+            { label: 'Activate', icon: 'fa-check-circle-o', command: (event: any) => this.activate() },
+            { label: 'DeActivate', icon: 'fa-circle-o', command: (event: any) => this.deactivate() },
             { label: 'Delete', icon: 'fa-close', command: (event: any) => this.delete() }
         ];
     }
@@ -38,11 +42,73 @@ export class CurrencyComponent implements OnInit {
     }
 
     onRowUnselect(event: any) {
-        //this.selected = new Equipment();
-        this.selected = {};
+        this.selected = {}; 
     }
-    showDialog() {
+
+    click_Edit() {
+        //this.current = Object.assign({}, this.selected);
+        this.current = JSON.parse(JSON.stringify(this.selected));
+
         this.show_dialog = true;
+    }
+
+    click_Add(event: any) {
+        this.selected = {};
+        this.current = {};
+        this.show_dialog = true;
+    }
+
+    onCancel(event: any) {
+        this.show_dialog = false;
+    }
+
+    onSubmit() {
+        if (this.selected.currencyId != undefined) { //update
+            //this._Service.update(this.current)
+                //.subscribe((status: any) => {
+                //    if (status) {
+                //        console.log("updated");
+                //        //Mark form as pristine so that CanDeactivateGuard won't prompt before navigation
+                //        //this.customerForm.form.markAsPristine();
+                //        //this.router.navigate(['/']);
+                //    }
+                //    else {
+                //        console.log("update error");
+                //        //this.errorMessage = 'Unable to save customer';
+                //    }
+                //});
+            this._Service.update(this.current)
+                .subscribe(data => { this.show_dialog = false; this.selected = Object.assign({}, this.current); });
+
+        } else { //create
+            this._Service.create(this.current)
+                .subscribe(data => { this.list.push(data); this.show_dialog = false; this.selected = data; });
+        }
+    }
+
+    deactivate() {
+        this._Service.deactivate(this.selected)
+            .subscribe((status: any) => {
+                if (status) {
+                    console.log("updated");
+                    this.selected.isActive = false;
+                }
+                else {
+                    console.log("update error");
+                }
+            });
+    }
+    activate() {
+        this._Service.activate(this.selected)
+            .subscribe((status: any) => {
+                if (status) {
+                    console.log("updated");
+                    this.selected.isActive = true;
+                }
+                else {
+                    console.log("update error");
+                }
+            });
     }
 
     delete() {
@@ -51,6 +117,7 @@ export class CurrencyComponent implements OnInit {
             .delete(this.selected)
             .then(() => {
                 this.list = this.list.filter(h => h.currencyId !== this.selected.currencyId);
+                this.selected = {};
                 //if (this.selected === this.selected) { this.selected = null; }
             });
     }

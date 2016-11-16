@@ -19,18 +19,24 @@ export class CurrencyService {
         return this._http.get(this.BaseUrl).map(res => res.json()).catch(this.handleError);
     }
 
-    update(equipment: any): Observable<any> {
-        return this._http.put(this.BaseUrl + '/' + equipment.equipmentId, equipment).map((res: Response) => res.json()).catch(this.handleError);
+    update(current: any): Observable<any> {
+        return this._http.put(this.BaseUrl + '/' + current.currencyId, current).map((res: Response) => res.json()).catch(this.handleError);
+    }
+
+    deactivate(current: any): Observable<any> {
+        return this._http.put(this.BaseUrl + '/deactivate/' + current.currencyId, current).map((res: Response) => res.json()).catch(this.handleError);
+    }
+
+    activate(current: any): Observable<void> {
+        return this._http.put(this.BaseUrl + '/activate/' + current.currencyId, current).map((res: Response) => res.json()).catch(this.handleError);
     }
 
     create(equipment: any): Observable<any> {
         return this._http.post(this.BaseUrl, equipment).map((res: Response) => res.json()).catch(this.handleError);
     }
+
     delete(current: any): Promise<void> {
-        return this._http.delete(this.BaseUrl + '/' + current.currencyId)
-            .toPromise()
-            .then(() => null)
-            .catch(this.handleError);
+        return this._http.delete(this.BaseUrl + '/' + current.currencyId).toPromise().then(() => null).catch(this.handleError);
         //return this.http.delete(this.equipmentBaseUrl+'/'+equipment.equipmentId).map((res: Response)=> res.json()).catch(this.handleError);
     }
 

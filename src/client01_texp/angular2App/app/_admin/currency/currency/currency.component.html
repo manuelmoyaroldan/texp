@@ -9,42 +9,54 @@
                  (onRowSelect)="onRowSelect($event)"
                  (onRowUnselect)="onRowUnselect($event)">
         <header>Equipment List</header>
-        <footer><div style="text-align: left">Selected: {{selected ? selected.name : 'none'}}</div></footer>
+        <footer>
+            <!--<div style="text-align: left">Selected: {{selected ? selected.name : 'none'}}</div>-->
+            <button pButton type="text" (click)="click_Add()" icon="fa-check" label="Add"></button>
+        </footer>
         <p-column field="currencyId" header="Id"></p-column>
         <p-column field="name" header="Name"></p-column>
         <p-column field="isActive" header="Active"></p-column>
     </p-dataTable>
     <p-contextMenu #cm [model]="menu_items"></p-contextMenu>
     <!--Dialog-->
-    <p-dialog [(visible)]="show_dialog" modal="true" responsive="true">
+    <p-dialog [(visible)]="show_dialog" modal="true" responsive="true" draggable="false"  >
+
         <header>
             Header content here
         </header>
         <form (ngSubmit)="onSubmit()" #customerForm="ngForm" class="editForm" novalidate>
+
             <div class="form-group">
-                <label>Name {{selected ? selected.currencyId : any}}</label>
+                <label>Name {{current ? current.currencyId : any}}</label>
                 <!--<input type="text" pInputText name="name" [(ngModel)]="selected.name" #name="ngModel" />-->
-                <input type="text" class="form-control" name="name" [(ngModel)]="selected.name" #Name="ngModel" required>
-                <div class="alert alert-danger" [hidden]="selected.name">Name is required</div>
+                <input type="text" class="form-control" name="name" [(ngModel)]="current.name" #Name="ngModel" required>
+                <div class="alert alert-danger" [hidden]="current.name">Name is required</div>
             </div>
             <!--<equipmenttypeselector [selected]="selected.equipmenttype"></equipmenttypeselector>-->
             <!--<div class="form-group">
-                <label>State</label>
-                <select class="form-control"
-                        [(ngModel)]="customer.state.abbreviation"
-                        name="state"
-                        required>
-                    <option *ngFor="let state of states" [ngValue]="state.abbreviation">{{state.name}}</option>
-                </select>
-            </div>-->
-            <button class="btn btn-default" (click)="onCancel($event)">Cancel</button>&nbsp;&nbsp;
-            <button type="submit" class="btn btn-success" [disabled]="!customerForm.dirty || !customerForm.valid">Update</button>
-            <div class="alert alert-danger" *ngIf="errorMessage != null">{{ errorMessage }}</div>
+            <label>State</label>
+            <select class="form-control"
+                    [(ngModel)]="customer.state.abbreviation"
+                    name="state"
+                    required>
+                <option *ngFor="let state of states" [ngValue]="state.abbreviation">{{state.name}}</option>
+            </select>
+        </div>-->
         </form>
-
         <footer>
-            Footer content here
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button class="btn btn-default" (click)="onCancel($event)">Cancel</button>
+                <button class="btn btn-success" [disabled]="!customerForm.dirty || !customerForm.valid" (click)="onSubmit()">Update</button>
+                <!--<button type="submit" class="btn btn-success" [disabled]="!customerForm.dirty || !customerForm.valid">Update</button>-->
+                <!--<button type="button" pButton icon="fa-close" (click)="display=false" label="No"></button>-->
+                <!--<button type="button" pButton icon="fa-check" (click)="display=false" label="Yes"></button>-->
+            </div>
         </footer>
+        <!--<button class="btn btn-default" (click)="onCancel($event)">Cancel</button>&nbsp;&nbsp;
+    <button type="submit" class="btn btn-success" [disabled]="!customerForm.dirty || !customerForm.valid">Update</button>
+    <div class="alert alert-danger" *ngIf="errorMessage != null">{{ errorMessage }}</div>-->
+
+
     </p-dialog>
     <div *ngIf="false">
         <p-dataList [value]="list">

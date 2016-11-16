@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.EntityFrameworkCore;
+
 using model_texp;
 using Microsoft.Extensions.Logging;
 
@@ -26,7 +28,7 @@ namespace api_texp.Controllers
         [HttpGet]
         public IEnumerable<company> Get()
         {
-            var companies = _context.company.ToList<company>();
+            var companies = _context.company.Include(c=> c.currency).ToList<company>();
 
             _logger.LogInformation(companies.Count.ToString());
 
@@ -56,6 +58,8 @@ namespace api_texp.Controllers
             var company = new company();
 
             company.name = value.name;
+            company.isActive = true;
+            if (value.currency != null) company.currencyId = value.currency.currencyId;
 
             _context.company.Add(company);
             _context.SaveChanges();
@@ -74,6 +78,7 @@ namespace api_texp.Controllers
             if (company != null)
             {
                 company.name = value.name;
+                if (value.currency != null) company.currencyId = value.currency.currencyId;
 
                 _context.SaveChanges();
 
@@ -87,6 +92,50 @@ namespace api_texp.Controllers
             }
         }
 
+        // DEACTIVATE
+        [Route("deactivate/{id}")]
+        [HttpPut()]
+        public IActionResult deactivate(int id, [FromBody]company value)
+        {
+            var company = _context.company.Where(c => c.companyId == id).FirstOrDefault<company>();
+
+            if (company != null)
+            {
+                company.isActive = false;
+
+                _context.SaveChanges();
+
+                return Ok(company);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        // DEACTIVATE
+        [Route("activate/{id}")]
+        [HttpPut()]
+        public IActionResult activate(int id, [FromBody]company value)
+        {
+            var company = _context.company.Where(c => c.companyId == id).FirstOrDefault<company>();
+
+            if (company != null)
+            {
+                company.isActive = true;
+
+                _context.SaveChanges();
+
+                return Ok(company);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
         //--------------------- DELETE api/values/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -95,7 +144,7 @@ namespace api_texp.Controllers
 
             if (company != null)
             {
-                company.isActive = false;
+                _context.Remove(company);
 
                 _context.SaveChanges();
 
