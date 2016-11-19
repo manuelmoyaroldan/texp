@@ -70,7 +70,7 @@ export class CompanyComponent implements OnInit {
     }
 
     onSubmit() {
-        if (this.selected.currencyId != undefined) { //update
+        if (this.selected.companyId != undefined) { //update
             this._Service.update(this.current)
                 .subscribe(data => { this.show_dialog = false; this.selected = Object.assign({}, this.current); });
 
@@ -109,7 +109,7 @@ export class CompanyComponent implements OnInit {
         this._Service
             .delete(this.selected)
             .then(() => {
-                this.list = this.list.filter(h => h.currencyId !== this.selected.currencyId);
+                this.list = this.list.filter(h => h.companyId !== this.selected.companyId);
                 this.selected = {};
             });
     }

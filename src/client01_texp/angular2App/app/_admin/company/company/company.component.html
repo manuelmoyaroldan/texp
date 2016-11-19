@@ -15,6 +15,12 @@
         <p-column field="companyId" header="Id"></p-column>
         <p-column field="name" header="Name"></p-column>
         <!--<p-column field="currency.name" header="Currency"></p-column>--> 
+        <p-column field="currency" header="Currency">
+            <template let-col  let-car="rowData" pTemplate type="body">
+                <!--<span>{{car[col.field]}}</span>-->
+                <span>{{col.field}}{{car.currency?car.currency.name:any}}</span>
+            </template>
+        </p-column> 
         <p-column field="isActive" header="Active"></p-column>
     </p-dataTable>
     <p-contextMenu #cm [model]="menu_items"></p-contextMenu>
@@ -27,12 +33,14 @@
         <form (ngSubmit)="onSubmit()" #customerForm="ngForm" class="editForm" novalidate>
 
             <div class="form-group">
-                <label>Name {{current ? current.currencyId : any}}</label>
+                <label>Name {{current ? current.companyId : any}}</label>
                 <input type="text" class="form-control" name="name" [(ngModel)]="current.name" #Name="ngModel" required>
                 <div class="alert alert-danger" [hidden]="current.name">Name is required</div>
             </div>
             <!--<currencyselector [selected]="selected.equipmenttype"></currencyselector>-->
-            <currencyselector ></currencyselector>
+            {{current.currencyId}}
+            {{current.currency? current.currency.name: any}}
+            <currencyselector [(selectedItem)]="current.currency" ></currencyselector>
         </form>
         <footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
