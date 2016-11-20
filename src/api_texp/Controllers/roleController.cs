@@ -22,40 +22,135 @@ namespace api_texp.Controllers
             _logger = loggerFactory.CreateLogger<roleController>();
         }
 
-        // GET: api/values
+        //--------------------- GET: api/values
         [HttpGet]
         public IEnumerable<role> Get()
         {
-            var roles = _context.role.ToList<role>();
+            var list = _context.role.ToList<role>();
 
-            _logger.LogInformation(roles.Count.ToString());
+            _logger.LogInformation(list.Count.ToString());
 
-            return roles;
+            return list;
         }
 
-        // GET api/values/5
+        //--------------------- GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var role = _context.role.Where(c => c.roleId == id).FirstOrDefault<role>();
+
+            if (role != null)
+            {
+                return Ok(role);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // POST api/values
+        //--------------------- POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]role value)
         {
+            var role = new role();
+
+            role.roleId = value.roleId;
+            role.name = value.name;
+            role.isActive = true;
+
+            _context.role.Add(role);
+            _context.SaveChanges();
+
+            var send = _context.role.Where(c => c.roleId == role.roleId).FirstOrDefault<role>();
+
+            return Ok(send);
         }
 
-        // PUT api/values/5
+        //--------------------- PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]role value)
         {
+            var role = _context.role.Where(c => c.roleId == id).FirstOrDefault<role>();
+
+            if (role != null)
+            {
+                role.name = value.name;
+
+                _context.SaveChanges();
+
+                var send = _context.role.Where(c => c.roleId == role.roleId).FirstOrDefault<role>();
+
+                return Ok(send);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DEACTIVATE
+        [Route("deactivate/{id}")]
+        [HttpPut()]
+        public IActionResult deactivate(int id, [FromBody]role value)
         {
+            var role = _context.role.Where(c => c.roleId == id).FirstOrDefault<role>();
+
+            if (role != null)
+            {
+                role.isActive = false;
+
+                _context.SaveChanges();
+
+                return Ok(role);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        // DEACTIVATE
+        [Route("activate/{id}")]
+        [HttpPut()]
+        public IActionResult activate(int id, [FromBody]role value)
+        {
+            var role = _context.role.Where(c => c.roleId == id).FirstOrDefault<role>();
+
+            if (role != null)
+            {
+                role.isActive = true;
+
+                _context.SaveChanges();
+
+                return Ok(role);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        //--------------------- DELETE api/values/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var role = _context.role.Where(c => c.roleId == id).FirstOrDefault<role>();
+
+            if (role != null)
+            {
+                _context.Remove(role);
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

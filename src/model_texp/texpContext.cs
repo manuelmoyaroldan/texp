@@ -24,6 +24,7 @@ namespace model_texp
         public DbSet<roleuser> roleuser { get; set; }
         public DbSet<travel> travel { get; set; }
         public DbSet<traveldetail> traveldetail { get; set; }
+        public DbSet<travelphase> travelphase { get; set; }
         public DbSet<traveltype> traveltype { get; set; }
         public DbSet<travelway> travelway { get; set; }
         public DbSet<user> user { get; set; }

@@ -1,5 +1,8 @@
 ﻿<div>
-    <p-dropdown [options]="listitem" [(ngModel)]="selectedItem"></p-dropdown>
+    <div class="form-group">
+        <label>Currency</label>
+        <p-dropdown style="display: block;" [style]="{width:'100%'}" [options]="listitem" [(ngModel)]="selectedItem"></p-dropdown>
+    </div>
     <!--<p-dropdown [options]="listitem" ></p-dropdown>-->
-    {{currentSelectedItem ? currentSelectedItem.name: any}} 
+    <!--{{currentSelectedItem ? currentSelectedItem.name: any}}--> 
 </div>

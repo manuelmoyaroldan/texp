@@ -41,6 +41,26 @@ export var routes = [
                 loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/currency/currency.module')['CurrencyModule']); }); }); }
             },
             {
+                path: 'costcenter',
+                loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/costcenter/costcenter.module')['CostcenterModule']); }); }); }
+            },
+            {
+                path: 'user',
+                loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/user/user.module')['UserModule']); }); }); }
+            },
+            {
+                path: 'role',
+                loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/role/role.module')['RoleModule']); }); }); }
+            },
+            {
+                path: 'phase',
+                loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/phase/phase.module')['PhaseModule']); }); }); }
+            },
+            {
+                path: 'travelphase',
+                loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/travelphase/travelphase.module')['TravelphaseModule']); }); }); }
+            },
+            {
                 path: 'dashboard',
                 loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./dashboard/dashboard.module')['DashboardModule']); }); }); }
             },

@@ -1,0 +1,48 @@
+﻿<div>
+    <!--DataTable-->
+    <p-dataTable [value]="list"
+                 selectionMode="single"
+                 [(selection)]="selected"
+                 scrollable="true"
+                 scrollHeight="200px"
+                 [contextMenu]="cm"
+                 (onRowSelect)="onRowSelect($event)"
+                 (onRowUnselect)="onRowUnselect($event)">
+        <header>User List</header>
+        <footer>
+            <button pButton type="text" (click)="click_Add()" icon="fa-check" label="Add"></button>
+        </footer>
+        <p-column field="roleId" header="Id"></p-column>
+        <p-column field="name" header="Name"></p-column>
+        <p-column field="isActive" header="Active"></p-column>
+    </p-dataTable>
+    <p-contextMenu #cm [model]="menu_items"></p-contextMenu>
+    
+    <!--Dialog-->
+    <p-dialog [(visible)]="show_dialog" modal="true" responsive="true" draggable="false" resizable="false">
+        <header>
+            Header content here
+        </header>
+        <form (ngSubmit)="onSubmit()" #customerForm="ngForm" class="editForm" novalidate>
+            <div class="form-group">
+                <label>Id</label>
+                <input type="text" class="form-control" name="roleId" [(ngModel)]="current.roleId" #Name="ngModel" required>
+                <div class="alert alert-danger" [hidden]="current.roleId">Id is required</div>
+            </div>
+
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" name="name" [(ngModel)]="current.name" #Name="ngModel" required>
+                <div class="alert alert-danger" [hidden]="current.name">Name is required</div>
+            </div>
+        </form>
+        <footer>
+            <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+                <button class="btn btn-default" (click)="onCancel($event)">Cancel</button>
+                <button class="btn btn-success" [disabled]="!customerForm.dirty || !customerForm.valid" (click)="onSubmit()">Update</button>
+            </div>
+        </footer>
+    </p-dialog>
+    
+   
+</div> 

@@ -50,6 +50,28 @@ export const routes: Routes = [
                 //loadChildren: 'app/dashboard/dashboard.module#DashboardModule'
                 loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/currency/currency.module')['CurrencyModule']); }); })
             },
+            {
+                path: 'costcenter',
+                //component: HomeComponent
+                //loadChildren: 'app/dashboard/dashboard.module#DashboardModule'
+                loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/costcenter/costcenter.module')['CostcenterModule']); }); })
+            },
+            {
+                path: 'user',
+                loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/user/user.module')['UserModule']); }); })
+            },
+            {
+                path: 'role',
+                loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/role/role.module')['RoleModule']); }); })
+            },
+            {
+                path: 'phase',
+                loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/phase/phase.module')['PhaseModule']); }); })
+            },
+            {
+                path: 'travelphase',
+                loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/travelphase/travelphase.module')['TravelphaseModule']); }); })
+            },
 
             {
                 path: 'dashboard',

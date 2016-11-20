@@ -19,43 +19,138 @@ namespace api_texp.Controllers
         public phaseController(texpContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
-            _logger = loggerFactory.CreateLogger<phaseController>();
+            _logger = loggerFactory.CreateLogger<roleController>();
         }
 
-        // GET: api/values
+        //--------------------- GET: api/values
         [HttpGet]
         public IEnumerable<phase> Get()
         {
-            var phases= _context.phase.ToList<phase>();
+            var list = _context.phase.ToList<phase>();
 
-            _logger.LogInformation(phases.Count.ToString());
+            _logger.LogInformation(list.Count.ToString());
 
-            return phases;
+            return list;
         }
 
-        // GET api/values/5
+        //--------------------- GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var phase = _context.phase.Where(c => c.phaseId == id).FirstOrDefault<phase>();
+
+            if (phase != null)
+            {
+                return Ok(phase);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // POST api/values
+        //--------------------- POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]phase value)
         {
+            var phase = new phase();
+
+            phase.phaseId = value.phaseId;
+            phase.name = value.name;
+            phase.isActive = true;
+
+            _context.phase.Add(phase);
+            _context.SaveChanges();
+
+            var send = _context.phase.Where(c => c.phaseId == phase.phaseId).FirstOrDefault<phase>();
+
+            return Ok(send);
         }
 
-        // PUT api/values/5
+        //--------------------- PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]phase value)
         {
+            var phase = _context.phase.Where(c => c.phaseId == id).FirstOrDefault<phase>();
+
+            if (phase != null)
+            {
+                phase.name = value.name;
+
+                _context.SaveChanges();
+
+                var send = _context.phase.Where(c => c.phaseId == phase.phaseId).FirstOrDefault<phase>();
+
+                return Ok(send);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DEACTIVATE
+        [Route("deactivate/{id}")]
+        [HttpPut()]
+        public IActionResult deactivate(int id, [FromBody]phase value)
         {
+            var phase = _context.phase.Where(c => c.phaseId == id).FirstOrDefault<phase>();
+
+            if (phase != null)
+            {
+                phase.isActive = false;
+
+                _context.SaveChanges();
+
+                return Ok(phase);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        // DEACTIVATE
+        [Route("activate/{id}")]
+        [HttpPut()]
+        public IActionResult activate(int id, [FromBody]phase value)
+        {
+            var phase = _context.phase.Where(c => c.phaseId == id).FirstOrDefault<phase>();
+
+            if (phase != null)
+            {
+                phase.isActive = true;
+
+                _context.SaveChanges();
+
+                return Ok(phase);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        //--------------------- DELETE api/values/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var phase = _context.phase.Where(c => c.phaseId == id).FirstOrDefault<phase>();
+
+            if (phase != null)
+            {
+                _context.Remove(phase);
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

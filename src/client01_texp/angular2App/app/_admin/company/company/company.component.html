@@ -33,13 +33,14 @@
         <form (ngSubmit)="onSubmit()" #customerForm="ngForm" class="editForm" novalidate>
 
             <div class="form-group">
-                <label>Name {{current ? current.companyId : any}}</label>
+                <!--<label>Name {{current ? current.companyId : any}}</label>-->
+                <label>Name</label>
                 <input type="text" class="form-control" name="name" [(ngModel)]="current.name" #Name="ngModel" required>
                 <div class="alert alert-danger" [hidden]="current.name">Name is required</div>
             </div>
             <!--<currencyselector [selected]="selected.equipmenttype"></currencyselector>-->
-            {{current.currencyId}}
-            {{current.currency? current.currency.name: any}}
+            <!--{{current.currencyId}}
+            {{current.currency? current.currency.name: any}}-->
             <currencyselector [(selectedItem)]="current.currency" ></currencyselector>
         </form>
         <footer>

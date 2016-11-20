@@ -23,40 +23,139 @@ namespace api_texp.Controllers
             _logger = loggerFactory.CreateLogger<costcenterController>();
         }
 
-        // GET: api/values
+        //--------------------- GET: api/values
         [HttpGet]
         public IEnumerable<costcenter> Get()
         {
-            var costcenters = _context.costcenter.Include(c=> c.company).ToList<costcenter>();
+            var list= _context.costcenter.Include(c => c.company).ToList<costcenter>();
 
-            _logger.LogInformation(costcenters.Count.ToString());
+            _logger.LogInformation(list.Count.ToString());
 
-            return costcenters;
+            return list;
         }
 
-        // GET api/values/5
+        //--------------------- GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var costcenter = _context.costcenter.Where(c => c.costcenterId == id).FirstOrDefault<costcenter>();
+
+            if (costcenter != null)
+            {
+                return Ok(costcenter);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // POST api/values
+        //--------------------- POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]costcenter value)
         {
+            var costcenter = new costcenter();
+
+            costcenter.name = value.name;
+            costcenter.code = value.code;
+            costcenter.isActive = true;
+            if (value.company != null) costcenter.companyId = value.company.companyId;
+
+            _context.costcenter.Add(costcenter);
+            _context.SaveChanges();
+
+            var send = _context.costcenter.Include(c=> c.company).Where(c => c.costcenterId == costcenter.costcenterId).FirstOrDefault<costcenter>();
+
+            return Ok(send);
         }
 
-        // PUT api/values/5
+        //--------------------- PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]costcenter value)
         {
+            var costcenter = _context.costcenter.Where(c => c.costcenterId == id).FirstOrDefault<costcenter>();
+
+            if (costcenter != null)
+            {
+                costcenter.name = value.name;
+                costcenter.code = value.code;
+                if (value.company != null) costcenter.companyId = value.company.companyId;
+
+                _context.SaveChanges();
+
+                var send = _context.costcenter.Include(c=> c.company).Where(c => c.costcenterId == costcenter.costcenterId).FirstOrDefault<costcenter>();
+
+                return Ok(send);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DEACTIVATE
+        [Route("deactivate/{id}")]
+        [HttpPut()]
+        public IActionResult deactivate(int id, [FromBody]costcenter value)
         {
+            var costcenter = _context.costcenter.Where(c => c.costcenterId == id).FirstOrDefault<costcenter>();
+
+            if (costcenter != null)
+            {
+                costcenter.isActive = false;
+
+                _context.SaveChanges();
+
+                return Ok(costcenter);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
+
+        // DEACTIVATE
+        [Route("activate/{id}")]
+        [HttpPut()]
+        public IActionResult activate(int id, [FromBody]costcenter value)
+        {
+            var costcenter = _context.costcenter.Where(c => c.costcenterId == id).FirstOrDefault<costcenter>();
+
+            if (costcenter != null)
+            {
+                costcenter.isActive = true;
+
+                _context.SaveChanges();
+
+                return Ok(costcenter);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        //--------------------- DELETE api/values/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var costcenter = _context.costcenter.Where(c => c.costcenterId == id).FirstOrDefault<costcenter>();
+
+            if (costcenter != null)
+            {
+                _context.Remove(costcenter);
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
     }
 }
