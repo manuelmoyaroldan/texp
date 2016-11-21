@@ -59,6 +59,9 @@ namespace api_texp.Controllers
             travelphase.order = value.order;
             travelphase.order_accept = value.order_accept;
             travelphase.order_reject = value.order_reject;
+            if (value.company != null) travelphase.companyId = value.company.companyId;
+            if (value.phase != null) travelphase.phaseId = value.phase.phaseId;
+            if (value.role != null) travelphase.roleId = value.role.roleId;
             travelphase.isActive = true;
 
             _context.travelphase.Add(travelphase);
@@ -80,6 +83,9 @@ namespace api_texp.Controllers
                 travelphase.order = value.order;
                 travelphase.order_accept = value.order_accept;
                 travelphase.order_reject = value.order_reject;
+                if (value.company != null) travelphase.companyId = value.company.companyId;
+                if (value.phase != null) travelphase.phaseId = value.phase.phaseId;
+                if (value.role!= null) travelphase.roleId = value.role.roleId;
 
                 _context.SaveChanges();
 

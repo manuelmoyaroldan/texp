@@ -12,15 +12,25 @@
         <footer>
             <button pButton type="text" (click)="click_Add()" icon="fa-check" label="Add"></button>
         </footer>
-        <p-column field="companyId" header="Id"></p-column>
-        <p-column field="code" header="Code"></p-column>
-        <p-column field="name" header="Name"></p-column>
-        <!--<p-column field="currency.name" header="Currency"></p-column>--> 
-        <p-column field="currency" header="Currency">
-            <template let-col  let-car="rowData" pTemplate type="body">
+        <p-column field="travelphaseId" header="Id"></p-column>
+        <p-column field="company" header="Company">
+            <template let-col let-car="rowData" pTemplate type="body">
                 <span>{{car.company?car.company.name:any}}</span>
             </template>
+        </p-column>
+        <p-column field="order" header="order"></p-column>
+        <p-column field="order_accept" header="accept"></p-column>
+        <p-column field="order_reject" header="reject"></p-column>
+        <p-column field="phase" header="Phase">
+            <template let-col  let-car="rowData" pTemplate type="body">
+                <span>{{car.phase?car.phase.name:any}}</span>
+            </template>
         </p-column> 
+        <p-column field="role" header="Role">
+            <template let-col let-car="rowData" pTemplate type="body">
+                <span>{{car.role?car.role.name:any}}</span>
+            </template>
+        </p-column>
         <p-column field="isActive" header="Active"></p-column>
     </p-dataTable>
     <p-contextMenu #cm [model]="menu_items"></p-contextMenu>
@@ -43,6 +53,8 @@
                 <div class="alert alert-danger" [hidden]="current.name">Name is required</div>
             </div>
             <companyselector [(selectedItem)]="current.company" ></companyselector>
+            <roleselector [(selectedItem)]="current.role"></roleselector>
+            <phaseselector [(selectedItem)]="current.phase"></phaseselector>
         </form>
         <footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
