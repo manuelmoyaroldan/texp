@@ -43,15 +43,18 @@
         <form (ngSubmit)="onSubmit()" #customerForm="ngForm" class="editForm" novalidate>
 
             <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" name="name" [(ngModel)]="current.name" #Name="ngModel" required>
-                <div class="alert alert-danger" [hidden]="current.name">Name is required</div>
+                <label>Order</label>
+                <input type="text" class="form-control" name="order" [(ngModel)]="current.order" #Name="ngModel" >
             </div>
             <div class="form-group">
-                <label>Code</label>
-                <input type="text" class="form-control" name="code" [(ngModel)]="current.code" #Name="ngModel" required>
-                <div class="alert alert-danger" [hidden]="current.name">Name is required</div>
+                <label>Accept</label>
+                <input type="text" class="form-control" name="order_accept" [(ngModel)]="current.order_accept" #Name="ngModel">
             </div>
+            <div class="form-group">
+                <label>Reject</label>
+                <input type="text" class="form-control" name="order_reject" [(ngModel)]="current.order_reject" #Name="ngModel">
+            </div>
+
             <companyselector [(selectedItem)]="current.company" ></companyselector>
             <roleselector [(selectedItem)]="current.role"></roleselector>
             <phaseselector [(selectedItem)]="current.phase"></phaseselector>

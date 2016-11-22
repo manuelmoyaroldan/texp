@@ -27,7 +27,7 @@ namespace api_texp.Controllers
         [HttpGet]
         public IEnumerable<travelphase> Get()
         {
-            var list = _context.travelphase.ToList<travelphase>();
+            var list = _context.travelphase.Include(t=>t.company).Include(t=>t.phase).Include(t=>t.role).ToList<travelphase>();
 
             _logger.LogInformation(list.Count.ToString());
 
@@ -67,7 +67,7 @@ namespace api_texp.Controllers
             _context.travelphase.Add(travelphase);
             _context.SaveChanges();
 
-            var send = _context.travelphase.Where(c => c.travelphaseId == travelphase.travelphaseId).FirstOrDefault<travelphase>();
+            var send = _context.travelphase.Include(t => t.company).Include(t => t.phase).Include(t => t.role).Where(c => c.travelphaseId == travelphase.travelphaseId).FirstOrDefault<travelphase>();
 
             return Ok(send);
         }
@@ -89,7 +89,7 @@ namespace api_texp.Controllers
 
                 _context.SaveChanges();
 
-                var send = _context.travelphase.Where(c => c.travelphaseId == travelphase.travelphaseId).FirstOrDefault<travelphase>();
+                var send = _context.travelphase.Include(t => t.company).Include(t => t.phase).Include(t => t.role).Where(c => c.travelphaseId == travelphase.travelphaseId).FirstOrDefault<travelphase>();
 
                 return Ok(send);
             }
