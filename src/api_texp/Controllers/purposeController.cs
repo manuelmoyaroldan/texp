@@ -19,67 +19,138 @@ namespace api_texp.Controllers
         public purposeController(texpContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
-            _logger = loggerFactory.CreateLogger<purposeController>();
+            _logger = loggerFactory.CreateLogger<roleController>();
         }
 
+        //--------------------- GET: api/values
         [HttpGet]
         public IEnumerable<purpose> Get()
         {
-            var purposes= _context.purpose.ToList<purpose>();
+            var list = _context.purpose.ToList<purpose>();
 
-            _logger.LogInformation(purposes.Count.ToString());
+            _logger.LogInformation(list.Count.ToString());
 
-            return purposes;
+            return list;
         }
 
+        //--------------------- GET api/values/5
         [HttpGet("{id}")]
-        public purpose Get(int id)
+        public IActionResult Get(int id)
         {
-            var purpose = _context.purpose.Where(p => p.purposeId == id).FirstOrDefault<purpose>();
+            var purpose = _context.purpose.Where(c => c.purposeId == id).FirstOrDefault<purpose>();
 
-            _logger.LogInformation(id.ToString());
-
-            return purpose;
+            if (purpose != null)
+            {
+                return Ok(purpose);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
+        //--------------------- POST api/values
         [HttpPost]
-        public void Post([FromBody]purpose value)
+        public IActionResult Post([FromBody]purpose value)
         {
             var purpose = new purpose();
 
             purpose.purposeId = value.purposeId;
             purpose.name = value.name;
-            
+            purpose.isActive = true;
+
             _context.purpose.Add(purpose);
             _context.SaveChanges();
 
-            _logger.LogInformation("Purpose post");
+            var send = _context.purpose.Where(c => c.purposeId == purpose.purposeId).FirstOrDefault<purpose>();
+
+            return Ok(send);
         }
 
+        //--------------------- PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]purpose value)
+        public IActionResult Put(int id, [FromBody]purpose value)
         {
-            var purpose = _context.purpose.Where(p=>p.purposeId==id).FirstOrDefault<purpose>();
+            var purpose = _context.purpose.Where(c => c.purposeId == id).FirstOrDefault<purpose>();
+
             if (purpose != null)
             {
-                purpose.purposeId = value.purposeId;
-                purpose.name= value.name;
+                purpose.name = value.name;
 
                 _context.SaveChanges();
+
+                var send = _context.purpose.Where(c => c.purposeId == purpose.purposeId).FirstOrDefault<purpose>();
+
+                return Ok(send);
             }
-            _logger.LogInformation("Purpose put");
+            else
+            {
+                return NotFound();
+            }
         }
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // DEACTIVATE
+        [Route("deactivate/{id}")]
+        [HttpPut()]
+        public IActionResult deactivate(int id, [FromBody]purpose value)
         {
-            var purpose = _context.purpose.Where(p => p.purposeId == id).FirstOrDefault<purpose>();
+            var purpose = _context.purpose.Where(c => c.purposeId == id).FirstOrDefault<purpose>();
+
             if (purpose != null)
             {
                 purpose.isActive = false;
+
                 _context.SaveChanges();
+
+                return Ok(purpose);
             }
-            _logger.LogInformation("Purpose deactivate");
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        // DEACTIVATE
+        [Route("activate/{id}")]
+        [HttpPut()]
+        public IActionResult activate(int id, [FromBody]purpose value)
+        {
+            var purpose = _context.purpose.Where(c => c.purposeId == id).FirstOrDefault<purpose>();
+
+            if (purpose != null)
+            {
+                purpose.isActive = true;
+
+                _context.SaveChanges();
+
+                return Ok(purpose);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+        //--------------------- DELETE api/values/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var purpose = _context.purpose.Where(c => c.purposeId == id).FirstOrDefault<purpose>();
+
+            if (purpose != null)
+            {
+                _context.Remove(purpose);
+
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

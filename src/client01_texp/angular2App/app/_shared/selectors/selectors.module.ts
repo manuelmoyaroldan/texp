@@ -13,13 +13,15 @@ import { CompanySelector } from './company.selector';
 import { CostcenterSelector } from './costcenter.selector';
 import { PhaseSelector } from './phase.selector';
 import { RoleSelector } from './role.selector';
+import { PurposeSelector } from './purpose.selector';
+import { TraveltypeSelector } from './traveltype.selector';
  
 
 @NgModule({
     imports: [FormsModule, CommonModule, DropdownModule],
-    declarations: [CurrencySelector, CompanySelector, CostcenterSelector, PhaseSelector, RoleSelector],//CapitalizePipe, TrimPipe, SortByDirective],
+    declarations: [CurrencySelector, CompanySelector, CostcenterSelector, PhaseSelector, RoleSelector, PurposeSelector, TraveltypeSelector],//CapitalizePipe, TrimPipe, SortByDirective],
     exports: [//CapitalizePipe, TrimPipe, SortByDirective,
-        CommonModule, FormsModule, HttpModule, CurrencySelector, CompanySelector, CostcenterSelector, PhaseSelector, RoleSelector,   DropdownModule]
+        CommonModule, FormsModule, HttpModule, CurrencySelector, CompanySelector, CostcenterSelector, PhaseSelector, RoleSelector, PurposeSelector, TraveltypeSelector,   DropdownModule]
   // providers: [] // these would be multi-instance
 })
 export class SelectorsModule { }

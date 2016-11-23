@@ -27,7 +27,7 @@ namespace api_texp.Controllers
         [HttpGet]
         public IEnumerable<travelphase> Get()
         {
-            var list = _context.travelphase.Include(t=>t.company).Include(t=>t.phase).Include(t=>t.role).ToList<travelphase>();
+            var list = _context.travelphase.Include(t=>t.company).Include(t=>t.phase).Include(t=>t.phase_next).Include(t=>t.role).ToList<travelphase>();
 
             _logger.LogInformation(list.Count.ToString());
 
@@ -57,17 +57,17 @@ namespace api_texp.Controllers
             var travelphase = new travelphase();
 
             travelphase.order = value.order;
-            travelphase.order_accept = value.order_accept;
-            travelphase.order_reject = value.order_reject;
+            travelphase.action_desc= value.action_desc;
             if (value.company != null) travelphase.companyId = value.company.companyId;
             if (value.phase != null) travelphase.phaseId = value.phase.phaseId;
+            if (value.phase_next != null) travelphase.phase_nextId = value.phase_next.phaseId;
             if (value.role != null) travelphase.roleId = value.role.roleId;
             travelphase.isActive = true;
 
             _context.travelphase.Add(travelphase);
             _context.SaveChanges();
 
-            var send = _context.travelphase.Include(t => t.company).Include(t => t.phase).Include(t => t.role).Where(c => c.travelphaseId == travelphase.travelphaseId).FirstOrDefault<travelphase>();
+            var send = _context.travelphase.Include(t => t.company).Include(t => t.phase).Include(t=> t.phase_next).Include(t => t.role).Where(c => c.travelphaseId == travelphase.travelphaseId).FirstOrDefault<travelphase>();
 
             return Ok(send);
         }
@@ -81,15 +81,15 @@ namespace api_texp.Controllers
             if (travelphase != null)
             {
                 travelphase.order = value.order;
-                travelphase.order_accept = value.order_accept;
-                travelphase.order_reject = value.order_reject;
+                travelphase.action_desc = value.action_desc;
                 if (value.company != null) travelphase.companyId = value.company.companyId;
                 if (value.phase != null) travelphase.phaseId = value.phase.phaseId;
+                if (value.phase_next != null) travelphase.phase_nextId = value.phase_next.phaseId;
                 if (value.role!= null) travelphase.roleId = value.role.roleId;
 
                 _context.SaveChanges();
 
-                var send = _context.travelphase.Include(t => t.company).Include(t => t.phase).Include(t => t.role).Where(c => c.travelphaseId == travelphase.travelphaseId).FirstOrDefault<travelphase>();
+                var send = _context.travelphase.Include(t => t.company).Include(t => t.phase).Include(t=>t.phase_next).Include(t => t.role).Where(c => c.travelphaseId == travelphase.travelphaseId).FirstOrDefault<travelphase>();
 
                 return Ok(send);
             }

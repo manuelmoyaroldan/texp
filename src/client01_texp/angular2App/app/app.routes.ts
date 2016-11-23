@@ -72,6 +72,14 @@ export const routes: Routes = [
                 path: 'travelphase',
                 loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/travelphase/travelphase.module')['TravelphaseModule']); }); })
             },
+            {
+                path: 'traveltype',
+                loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/traveltype/traveltype.module')['TraveltypeModule']); }); })
+            },
+            {
+                path: 'purpose',
+                loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/purpose/purpose.module')['PurposeModule']); }); })
+            },
 
             {
                 path: 'dashboard',
