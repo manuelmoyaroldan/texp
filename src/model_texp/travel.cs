@@ -21,6 +21,11 @@ namespace model_texp
         public Nullable<int> phaseId { get; set; }
         public Nullable<int> projectId { get; set; }
 
+        public user user { get; set; }
+        public traveltype traveltype { get; set; }
+        public purpose purpose { get; set; }
+        public phase phase { get; set; }
+        public project project { get; set; }
 
         public List<traveldetail> traveldetail {get; set;}
         

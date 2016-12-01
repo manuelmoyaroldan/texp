@@ -80,6 +80,14 @@ export const routes: Routes = [
                 path: 'purpose',
                 loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_admin/purpose/purpose.module')['PurposeModule']); }); })
             },
+            {
+                path: 'travel',
+                loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_travel/travel/travel.module')['TravelModule']); }); })
+            },
+            {
+                path: 'traveldoc/:id',
+                loadChildren: () => new Promise(function (resolve) { (require as any).ensure([], function (require: any) { resolve(require('./_travel/traveldoc/traveldoc.module')['TraveldocModule']); }); })
+            },
 
             {
                 path: 'dashboard',

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using model_texp;
+using api_texp.dal;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +31,7 @@ namespace api_texp.Controllers
         [HttpGet]
         public IEnumerable<travel> Get()
         {
-            var travels = _context.travel.ToList<travel>();
+            var travels = _context.travel.Include(t=> t.user).ToList<travel>();
 
             _logger.LogInformation(travels.Count.ToString());
 
@@ -40,15 +42,29 @@ namespace api_texp.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var travel = getById(id);
-            
-            if (travel != null)
+            //get user
+            user_dal dal_user = new user_dal();
+            user current_user = dal_user.getUser();
+
+
+            //get travel
+            if (id > 0)
             {
-                return new OkObjectResult(JsonConvert.SerializeObject(travel, Formatting.None,new JsonSerializerSettings(){ReferenceLoopHandling = ReferenceLoopHandling.Ignore})); //Loop referencing
-            }
-            else
+                var travel = getById(id);
+
+                if (travel != null)
+                {
+                    return new OkObjectResult(JsonConvert.SerializeObject(travel, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })); //Loop referencing
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }else
             {
-                return NotFound();
+                var travel = new travel();
+
+                return new OkObjectResult(JsonConvert.SerializeObject(travel, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
             }
         }
 
@@ -73,7 +89,12 @@ namespace api_texp.Controllers
         }
         private travel getById(int id)
         {
-             return _context.travel.Include(t => t.traveldetail).Where(t => t.travelId == id).FirstOrDefault<travel>();
+             return _context.travel.Include(t => t.traveldetail)
+                                    .Include(t=>t.user)
+                                    .Include(t=>t.phase)
+                                    .Include(t=>t.purpose)
+                                    .Include(t=>t.project)
+                                    .Where(t => t.travelId == id).FirstOrDefault<travel>();
         }
         private void copydata(travel source, travel target)
         {
@@ -142,5 +163,11 @@ namespace api_texp.Controllers
             }
         }
 
+    }
+
+    class travelandphase
+    {
+        public travel travel { get; set; }
+        public travelphase travelphase { get; set; }
     }
 }

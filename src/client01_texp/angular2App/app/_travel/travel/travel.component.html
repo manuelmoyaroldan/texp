@@ -8,30 +8,35 @@
                  [contextMenu]="cm"
                  (onRowSelect)="onRowSelect($event)"
                  (onRowUnselect)="onRowUnselect($event)">
-        <header>Purpose List</header>
+        <header>Travel List</header>
         <footer>
             <button pButton type="text" (click)="click_Add()" icon="fa-check" label="Add"></button>
         </footer>
-        <p-column field="purposeId" header="Id"></p-column>
-        <p-column field="name" header="Name"></p-column>
+        <p-column field="travelId" header="Id"></p-column>
+        <p-column field="destination" header="Destination"></p-column>
+        <p-column field="user" header="User">
+            <template let-col let-car="rowData" pTemplate type="body">
+                <span>{{car.user?car.user.name:any}}</span>
+            </template>
+        </p-column>
         <p-column field="isActive" header="Active"></p-column>
     </p-dataTable>
     <p-contextMenu #cm [model]="menu_items"></p-contextMenu>
     
     <!--Dialog-->
-    <p-dialog [(visible)]="show_dialog" modal="true" responsive="true" draggable="false" resizable="false">
+    <!--<p-dialog [(visible)]="show_dialog" modal="true" responsive="true" draggable="false" resizable="false">
         <header>
             Header content here
         </header>
         <form (ngSubmit)="onSubmit()" #customerForm="ngForm" class="editForm" novalidate>
             <div class="form-group">
                 <label>Id</label>
-                <input type="text" class="form-control" name="purposeId" [(ngModel)]="current.purposeId" #Name="ngModel" required>
+                <input type="text" class="form-control" name="purposeId" [(ngModel)]="current.userId" #Name="ngModel" required>
                 <div class="alert alert-danger" [hidden]="current.purposeId">Id is required</div>
             </div>
 
             <div class="form-group">
-                <label>Name</label>
+                <label>Destination</label>
                 <input type="text" class="form-control" name="name" [(ngModel)]="current.name" #Name="ngModel" required>
                 <div class="alert alert-danger" [hidden]="current.name">Name is required</div>
             </div>
@@ -42,7 +47,7 @@
                 <button class="btn btn-success" [disabled]="!customerForm.dirty || !customerForm.valid" (click)="onSubmit()">Update</button>
             </div>
         </footer>
-    </p-dialog>
+    </p-dialog>-->
     
    
 </div> 

@@ -61,6 +61,14 @@ export var routes = [
                 loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/travelphase/travelphase.module')['TravelphaseModule']); }); }); }
             },
             {
+                path: 'traveltype',
+                loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/traveltype/traveltype.module')['TraveltypeModule']); }); }); }
+            },
+            {
+                path: 'purpose',
+                loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./_admin/purpose/purpose.module')['PurposeModule']); }); }); }
+            },
+            {
                 path: 'dashboard',
                 loadChildren: function () { return new Promise(function (resolve) { require.ensure([], function (require) { resolve(require('./dashboard/dashboard.module')['DashboardModule']); }); }); }
             },

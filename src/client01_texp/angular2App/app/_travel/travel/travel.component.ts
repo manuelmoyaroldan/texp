@@ -3,22 +3,22 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 
-import { PurposeService } from './purpose.service';
+import { TravelService } from './travel.service';
 
 
 
 import { DataListModule, DataTableModule, MenuItem, ContextMenuModule, DialogModule } from 'primeng/primeng';
 
 @Component({
-    templateUrl: 'purpose.component.html'
-    , providers: [PurposeService
+    templateUrl: 'travel.component.html'
+    , providers: [TravelService
         , DataListModule
         , DataTableModule
         , ContextMenuModule
         , DialogModule
     ]
 })
-export class PurposeComponent implements OnInit {
+export class TravelComponent implements OnInit {
 
     public list: any[] = [];
     public selected: any = {};
@@ -27,7 +27,7 @@ export class PurposeComponent implements OnInit {
     public menu_items: MenuItem[];
     public show_dialog: boolean = false;
 
-    constructor(private _Service: PurposeService) { }
+    constructor(private _Service: TravelService, private router: Router) { }
 
     ngOnInit(): void {
         this._Service
@@ -53,9 +53,8 @@ export class PurposeComponent implements OnInit {
 
     click_Edit() {
         //this.current = Object.assign({}, this.selected);
-        this.current = JSON.parse(JSON.stringify(this.selected));
-
-        this.show_dialog = true;
+        //this.current = JSON.parse(JSON.stringify(this.selected));
+        this.router.navigate(['/traveldoc', this.selected.travelId]);
     }
 
     click_Add(event: any) {
@@ -69,7 +68,7 @@ export class PurposeComponent implements OnInit {
     }
 
     onSubmit() {
-        if (this.selected.purposeId != undefined) { //update
+        if (this.selected.travelId != undefined) { //update
             this._Service.update(this.current)
                 .subscribe(data => { this.show_dialog = false; this.selected = Object.assign({}, this.current); });
 
@@ -108,7 +107,7 @@ export class PurposeComponent implements OnInit {
         this._Service
             .delete(this.selected)
             .then(() => {
-                this.list = this.list.filter(h => h.purposeId !== this.selected.purposeId);
+                this.list = this.list.filter(h => h.travelId !== this.selected.travelId);
                 this.selected = {};
             });
     }
