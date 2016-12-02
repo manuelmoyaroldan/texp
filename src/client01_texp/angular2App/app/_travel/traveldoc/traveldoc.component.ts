@@ -24,9 +24,17 @@ export class TraveldocComponent implements OnInit {
     public idrec: Number = 0;
     public myparams: any;
 
+    public doc_state: any = 1;
+    public show_toolbar: any = 1;
+    public show_prev: any = 0;
+    public show_next: any = 1;
+    public prev_state: any = 0;
+    public next_state: any = 2;
+
     public list: any[] = [];
     public selected: any = {};
     public current: any = {};
+    public current_detail: any = {};
 
     public menu_items: MenuItem[];
     public show_dialog: boolean = false;
@@ -77,6 +85,69 @@ export class TraveldocComponent implements OnInit {
 
     onRowUnselect(event: any) {
         this.selected = {};
+    }
+
+
+    change_state(value: any) {
+        //1-properties
+        //2-ta question, 3- ta list, 4- ta edition
+        //5-hotel question, 6- hotel edition
+        //7-advance question, 8- advance list, 9- advance edition
+        //10-authorizacion request
+        let temp_state = value;
+        if (temp_state == 1) {
+            this.doc_state = temp_state;
+            this.show_prev = 0; this.prev_state = 0;
+            this.show_next = 1; this.next_state = 3;
+        } if (temp_state == 2 && (this.current.traveldetail == undefined || this.current.traveldetail > 0)) { //2 ta question
+            this.doc_state = temp_state;
+            this.show_prev = 1; this.prev_state = 1;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 2 && this.current.traveldetail != undefined && this.current.traveldetail > 0) { //3 ta list
+            this.doc_state = 3;
+            this.show_prev = 0; this.prev_state = 0;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 3 && (this.current.traveldetail == undefined || this.current.traveldetail <= 0 )) { //3 ta list
+            this.doc_state = 2;
+            this.show_prev = 1; this.prev_state = 1;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 4 ) { //4 ta edition
+            this.doc_state = temp_state;
+            this.show_prev = 0; this.prev_state = 0;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 5 && (this.current.traveldetail == undefined || this.current.traveldetail > 0)) { //5 hotel question
+            this.doc_state = 5;
+            this.show_prev = 0; this.prev_state = 0;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 6) { //6 hotel edition
+            this.doc_state = temp_state;
+            this.show_prev = 0; this.prev_state = 0;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 7 && (this.current.advancedetail == undefined || this.current.advancedetail > 0)) { //7 advance question
+            this.doc_state = temp_state;
+            this.show_prev = 1; this.prev_state = 3;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 8 && this.current.traveldetail != undefined && this.current.traveldetail > 0) { //8 advance list with data
+            this.doc_state = 7;
+            this.show_prev = 1; this.prev_state = 3;
+            this.show_next = 0; this.next_state = 10;
+        } if (temp_state == 8 && (this.current.traveldetail == undefined || this.current.traveldetail.count <= 0)) { //8 advance list wo data
+            this.doc_state = 7;
+            this.show_prev = 1; this.prev_state = 3;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 9) { //9 advance edition
+            this.doc_state = temp_state;
+            this.show_prev = 0; this.prev_state = 0;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 10) { //10 request auth
+            this.doc_state = temp_state;
+            this.show_prev = 1; this.prev_state = 8;
+            this.show_next = 0; this.next_state = 0;
+
+        } else {
+            //this.doc_state = temp_state;
+        }
+
     }
 
     click_Edit() {

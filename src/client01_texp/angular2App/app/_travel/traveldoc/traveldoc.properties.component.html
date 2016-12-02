@@ -1,0 +1,31 @@
+﻿<div>
+    Travel Doc {{current.travelId}} {{current.user? current.user.name: 'no user'}}
+    <div>
+        <div class="form-group">
+            <label>Destination</label>
+            <input type="text" class="form-control" name="destination" [(ngModel)]="current.destination" required>
+        </div>
+        <div class="form-group">
+            <label>From</label>
+            <p-calendar class="form-control" [(ngModel)]="current.from"></p-calendar>
+        </div>
+        <div class="form-group">
+            <label>To</label>
+            <p-calendar class="form-control" [(ngModel)]="current.to"></p-calendar>
+        </div>
+        <div class="form-group">
+            <label>Reason</label>
+            <input type="text" class="form-control" name="reason" [(ngModel)]="current.reason" required>
+        </div>
+
+        <!--<div class="form-group">
+            <label>Type</label>
+            <select class="form-control"
+                    [(ngModel)]="customer.state.abbreviation"
+                    name="state"
+                    required>
+                <option *ngFor="let state of states" [ngValue]="state.abbreviation">{{state.name}}</option>
+            </select>
+        </div>-->
+    </div>
+</div> 

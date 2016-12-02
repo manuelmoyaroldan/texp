@@ -1,42 +1,88 @@
 ﻿<div>
-    Travel Doc {{current.travelId}} {{current.user? current.user.name: 'no user'}}
-    <div>
-        <div>
-            <form (ngSubmit)="onSubmit()" #customerForm="ngForm" class="editForm" novalidate>
-                <div class="form-group">
-                    <label>Destination</label>
-                    <input type="text" class="form-control" name="firstName" [(ngModel)]="customer.firstName" #firstName="ngModel" required>
-                    <div class="alert alert-danger" [hidden]="firstName.valid">First Name is required</div>
-                </div>
-                <div class="form-group">
-                    <label>From</label>
-                    <input type="text" class="form-control" name="lastName" [(ngModel)]="customer.lastName" #lastName="ngModel" required>
-                    <div class="alert alert-danger" [hidden]="lastName.valid">Last Name is required</div>
-                </div>
-                <div class="form-group">
-                    <label>To</label>
-                    <input type="text" class="form-control" name="address" [(ngModel)]="customer.address" #address="ngModel" required>
-                    <div class="alert alert-danger" [hidden]="address.valid">Address is required</div>
-                </div>
-                <div class="form-group">
-                    <label>Reason</label>
-                    <input type="text" class="form-control" name="city" [(ngModel)]="customer.city" #city="ngModel" required>
-                    <div class="alert alert-danger" [hidden]="city.valid">City is required</div>
-                </div>
-                <div class="form-group">
-                    <label>Type</label>
-                    <select class="form-control"
-                            [(ngModel)]="customer.state.abbreviation"
-                            name="state"
-                            required>
-                        <option *ngFor="let state of states" [ngValue]="state.abbreviation">{{state.name}}</option>
-                    </select>
-                </div>
-                <button class="btn btn-default" (click)="onCancel($event)">Cancel</button>&nbsp;&nbsp;
-                <button type="submit" class="btn btn-success" [disabled]="!customerForm.dirty || !customerForm.valid">Update</button>
-                <div class="alert alert-danger" *ngIf="errorMessage != null">{{ errorMessage }}</div>
-            </form>
-        </div>
-
+    <!--Travel Doc {{current.travelId}} {{current.user? current.user.name: 'no user'}}-->
+    <!--TOOLBAR-->
+    <div *ngIf="show_toolbar==1">
+        <button (click)="change_state(prev_state)" *ngIf="prev_state!=0">Prev</button>
+        <button (click)="change_state(next_state)" *ngIf="next_state!=0">Next</button>
     </div>
+    <!--PROPERTIES-->
+    <div *ngIf="doc_state==1">
+        <div class="form-group">
+            <label>Destination</label>
+            <input type="text" class="form-control" name="destination" [(ngModel)]="current.destination" required>
+        </div>
+        <div class="form-group">
+            <label>From</label>
+            <p-calendar class="form-control" [(ngModel)]="current.from"></p-calendar>
+        </div>
+        <div class="form-group">
+            <label>To</label>
+            <p-calendar class="form-control" [(ngModel)]="current.to"></p-calendar>
+        </div>
+        <div class="form-group">
+            <label>Reason</label>
+            <input type="text" class="form-control" name="reason" [(ngModel)]="current.reason" required>
+        </div>
+    </div>
+    <!--TRAVEL AGENCY QUESTION 1-->
+    <div *ngIf="doc_state==2">
+        Would you like the Travel Agency to book your travel?
+        <br />
+        <button (click)="change_state(5)">No</button><!--hotel question-->
+        <button (click)="change_state(4)">Yes</button>
+    </div>
+    <!--TRAVEL AGENCY LIST-->
+    <div *ngIf="doc_state==3">
+        TRAVEL AGENCY LIST
+    </div>
+    <!--TRAVEL AGENCY EDITION-->
+    <div *ngIf="doc_state==4">
+        TRAVEL AGENCY EDITION
+        <button (click)="change_state(3)">Cancel</button>
+        <button (click)="change_state(5)">Save</button>
+    </div>
+    <!--HOTEL QUESTION 1-->
+    <div *ngIf="doc_state==5">
+        Would you like the Travel Agency to book your hotel?
+        <br />
+        <button (click)="change_state(7)">No</button> 
+        <button (click)="change_state(6)">Yes</button>
+    </div>
+    <!--HOTEL EDITION -->
+    <div *ngIf="doc_state==6">
+        HOTEL EDITION
+        <br />
+        <button (click)="change_state(5)">Cancel</button>
+        <button (click)="change_state(3)">Save</button>
+    </div>
+    <!--ADVANCE QUESTION 1-->
+    <div *ngIf="doc_state==7">
+        Would you like to get an advance?
+        <br />
+        <button (click)="change_state(10)">No</button>
+        <button (click)="change_state(9)">Yes</button>
+    </div>
+    <!--ADVANCE LIST-->
+    <div *ngIf="doc_state==8">
+        TRAVEL AGENCY LIST
+    </div>
+    <!--ADVANCE EDITION-->
+    <div *ngIf="doc_state==9">
+        TRAVEL AGENCY EDITION
+        <br />
+        <button (click)="change_state(8)">Cancel</button>
+        <button (click)="change_state(10)">Save</button>
+    </div>
+    <!--REQUEST AUTHORIZATION -->
+    <div *ngIf="doc_state==10">
+        Would you like to request authorization?
+        <br />
+        <button >No</button>
+        <button >Yes</button>
+        <!--<button (click)="prev_state(1)">No</button>
+        <button (click)="next_state(2)">Yes</button>-->
+    </div>
+
+
+
 </div> 
