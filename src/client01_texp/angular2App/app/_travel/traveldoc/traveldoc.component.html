@@ -3,6 +3,7 @@
     <!--TOOLBAR-->
     <div *ngIf="show_toolbar==1">
         <button (click)="change_state(prev_state)" *ngIf="prev_state!=0">Prev</button>
+        <!--{{current.traveldetail.length}}-->
         <button (click)="change_state(next_state)" *ngIf="next_state!=0">Next</button>
     </div>
     <!--PROPERTIES-->
@@ -38,6 +39,36 @@
     <!--TRAVEL AGENCY EDITION-->
     <div *ngIf="doc_state==4">
         TRAVEL AGENCY EDITION
+        <div class="form-group">
+            <label>Origin</label>
+            <input type="text" class="form-control" name="origin" [(ngModel)]="currentdetail.origin" required>
+        </div>
+        <div class="form-group">
+            <label>Destination</label>
+            <input type="text" class="form-control" name="destination" [(ngModel)]="currentdetail.destination" required>
+        </div>
+        <div class="form-group">
+            <label>Way of Transport</label>
+            <!--<input type="text" class="form-control" name="destination" [(ngModel)]="currentdetail.destination" required>-->
+        </div>
+        <div class="form-group">
+            <label>Round Trip</label>
+            <!--<input type="text" class="form-control" name="destination" [(ngModel)]="currentdetail.destination" required>-->
+        </div>
+
+        <div class="form-group">
+            <label>From</label>
+            <p-calendar class="form-control" [(ngModel)]="currentdetail.from"></p-calendar>
+        </div>
+        <div class="form-group">
+            <label>To</label>
+            <p-calendar class="form-control" [(ngModel)]="currentdetail.to"></p-calendar>
+        </div>
+        <div class="form-group">
+            <label>Reason</label>
+            <input type="text" class="form-control" name="reason" [(ngModel)]="current.reason" required>
+        </div>
+
         <button (click)="change_state(3)">Cancel</button>
         <button (click)="change_state(5)">Save</button>
     </div>

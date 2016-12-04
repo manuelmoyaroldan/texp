@@ -12,15 +12,15 @@ namespace api_texp.dal
 {
     public class user_dal
     {
-        private texpContext _context;
+        //private texpContext _context;
 
-        public user getUser()
+        public user getUser(texpContext _context)
         {
-            var temp = _context.user.Where(u => u.userId == 1);
+            user temp = _context.user.Where(u => u.userId == 1).FirstOrDefault<user>();
 
             if (temp != null)
             {
-                return (user) temp;
+                return temp;
             }else
             {
                 return null;

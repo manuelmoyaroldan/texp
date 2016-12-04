@@ -34,7 +34,7 @@ export class TraveldocComponent implements OnInit {
     public list: any[] = [];
     public selected: any = {};
     public current: any = {};
-    public current_detail: any = {};
+    public currentdetail: any = {};
 
     public menu_items: MenuItem[];
     public show_dialog: boolean = false;
@@ -95,26 +95,27 @@ export class TraveldocComponent implements OnInit {
         //7-advance question, 8- advance list, 9- advance edition
         //10-authorizacion request
         let temp_state = value;
+        //console.log(this.current.traveldetail.length);
         if (temp_state == 1) {
-            this.doc_state = temp_state;
+            this.doc_state = temp_state; console.log("properties");
             this.show_prev = 0; this.prev_state = 0;
             this.show_next = 1; this.next_state = 3;
         } if (temp_state == 2 && (this.current.traveldetail == undefined || this.current.traveldetail > 0)) { //2 ta question
-            this.doc_state = temp_state;
+            this.doc_state = temp_state; console.log("ta question");
             this.show_prev = 1; this.prev_state = 1;
             this.show_next = 0; this.next_state = 0;
-        } if (temp_state == 2 && this.current.traveldetail != undefined && this.current.traveldetail > 0) { //3 ta list
-            this.doc_state = 3;
+        } if (temp_state == 2 && this.current.traveldetail != undefined && this.current.traveldetail.count > 0) { //3 ta list
+            this.doc_state = 3; this.doc_state = temp_state; console.log("ta list");
             this.show_prev = 0; this.prev_state = 0;
             this.show_next = 0; this.next_state = 0;
         } if (temp_state == 3 && (this.current.traveldetail == undefined || this.current.traveldetail <= 0 )) { //3 ta list
-            this.doc_state = 2;
+            this.doc_state = 2; console.log("ta question");
             this.show_prev = 1; this.prev_state = 1;
             this.show_next = 0; this.next_state = 0;
         } if (temp_state == 4 ) { //4 ta edition
             this.doc_state = temp_state;
             this.show_prev = 0; this.prev_state = 0;
-            this.show_next = 0; this.next_state = 0;
+            this.show_next = 0; this.next_state = 0; this.currentdetail = { };
         } if (temp_state == 5 && (this.current.traveldetail == undefined || this.current.traveldetail > 0)) { //5 hotel question
             this.doc_state = 5;
             this.show_prev = 0; this.prev_state = 0;
@@ -146,6 +147,7 @@ export class TraveldocComponent implements OnInit {
 
         } else {
             //this.doc_state = temp_state;
+            console.log("nada de cambio");
         }
 
     }

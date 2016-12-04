@@ -44,7 +44,7 @@ namespace api_texp.Controllers
         {
             //get user
             user_dal dal_user = new user_dal();
-            user current_user = dal_user.getUser();
+            user current_user = dal_user.getUser(_context);
 
 
             //get travel
