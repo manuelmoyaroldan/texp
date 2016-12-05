@@ -3,7 +3,7 @@
     <!--TOOLBAR-->
     <div *ngIf="show_toolbar==1">
         <button (click)="change_state(prev_state)" *ngIf="prev_state!=0">Prev</button>
-        <!--{{current.traveldetail.length}}-->
+        {{current.traveldetail.length}}
         <button (click)="change_state(next_state)" *ngIf="next_state!=0">Next</button>
     </div>
     <!--PROPERTIES-->
@@ -34,7 +34,38 @@
     </div>
     <!--TRAVEL AGENCY LIST-->
     <div *ngIf="doc_state==3">
-        TRAVEL AGENCY LIST
+        <p-dataList [value]="current.traveldetail" >
+            <header>
+                Travel Agency
+            </header>
+            <template let-detail>
+                <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-3" style="text-align:center"><i class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer;float:left;margin-top:40px"></i><!--<img src="showcase/resources/demo/images/car/{{car.brand}}-big.gif">--></div>
+                        <div class="ui-grid-col-9">
+                            <div class="ui-grid ui-grid-responsive ui-fluid">
+                                <!--<div class="ui-grid-row">
+                                    <div class="ui-grid-col-2">Vin: </div>
+                                    <div class="ui-grid-col-10">{{detail.traveldetailId}}</div>
+                                </div>-->
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2">Origin </div>
+                                    <div class="ui-grid-col-10">{{detail.origin}}</div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2">Destination </div>
+                                    <div class="ui-grid-col-10">{{detail.destination}}</div>
+                                </div>
+                                <!--<div class="ui-grid-row">
+                                    <div class="ui-grid-col-2">Color: </div>
+                                    <div class="ui-grid-col-10">{{car.color}}</div>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </p-dataList>
     </div>
     <!--TRAVEL AGENCY EDITION-->
     <div *ngIf="doc_state==4">
@@ -70,7 +101,7 @@
         </div>
 
         <button (click)="change_state(3)">Cancel</button>
-        <button (click)="change_state(5)">Save</button>
+        <button (click)="save_traveldetail()">Save</button>
     </div>
     <!--HOTEL QUESTION 1-->
     <div *ngIf="doc_state==5">

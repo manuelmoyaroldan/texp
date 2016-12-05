@@ -62,7 +62,7 @@ export class TraveldocComponent implements OnInit {
                     () => console.log('Get travel completed'));
             } else {
                 //create travel
-                this.current = { travelId: 0, destination: '', phaseId: 1 };
+                this.current = { travelId: 0, destination: '', phaseId: 1, traveldetail: [] };
             }
             // In a real app: dispatch action to load the details here.
         });
@@ -80,14 +80,6 @@ export class TraveldocComponent implements OnInit {
         ];
     }
 
-    onRowSelect(event: any) {
-    }
-
-    onRowUnselect(event: any) {
-        this.selected = {};
-    }
-
-
     change_state(value: any) {
         //1-properties
         //2-ta question, 3- ta list, 4- ta edition
@@ -100,7 +92,7 @@ export class TraveldocComponent implements OnInit {
             this.doc_state = temp_state; console.log("properties");
             this.show_prev = 0; this.prev_state = 0;
             this.show_next = 1; this.next_state = 3;
-        } if (temp_state == 2 && (this.current.traveldetail == undefined || this.current.traveldetail > 0)) { //2 ta question
+        } if (temp_state == 2 && (this.current.traveldetail == undefined || this.current.traveldetail == 0)) { //2 ta question
             this.doc_state = temp_state; console.log("ta question");
             this.show_prev = 1; this.prev_state = 1;
             this.show_next = 0; this.next_state = 0;
@@ -112,7 +104,11 @@ export class TraveldocComponent implements OnInit {
             this.doc_state = 2; console.log("ta question");
             this.show_prev = 1; this.prev_state = 1;
             this.show_next = 0; this.next_state = 0;
-        } if (temp_state == 4 ) { //4 ta edition
+        } if (temp_state == 3 && (this.current.traveldetail != undefined || this.current.traveldetail > 0)) { //3 ta list
+            this.doc_state = 3; console.log("ta list");
+            this.show_prev = 1; this.prev_state = 1;
+            this.show_next = 0; this.next_state = 0;
+        } if (temp_state == 4) { //4 ta edition
             this.doc_state = temp_state;
             this.show_prev = 0; this.prev_state = 0;
             this.show_next = 0; this.next_state = 0; this.currentdetail = { };
@@ -151,6 +147,27 @@ export class TraveldocComponent implements OnInit {
         }
 
     }
+
+    save_traveldetail(event: any) {
+
+        if (this.currentdetail.traveldetailId == 0 || this.currentdetail.traveldetailId==null) { //new
+            if (this.current.traveldetail == undefined || this.current.traveldetail == null) {
+                this.current.traveldetail = [];
+            }
+            this.currentdetail.traveldetailId = -1;
+        } 
+
+        this.current.traveldetail.push(this.currentdetail);
+        this.change_state(3);
+    }
+
+    onRowSelect(event: any) {
+    }
+
+    onRowUnselect(event: any) {
+        this.selected = {};
+    }
+
 
     click_Edit() {
         //this.current = Object.assign({}, this.selected);
