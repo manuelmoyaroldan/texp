@@ -1,39 +1,48 @@
 ﻿<div>
     <!--Travel Doc {{current.travelId}} {{current.user? current.user.name: 'no user'}}-->
     <!--TOOLBAR-->
-    <div *ngIf="show_toolbar==1">
+    <div *ngIf="show_toolbar==1" >
         <button (click)="change_state(prev_state)" *ngIf="prev_state!=0">Prev</button>
         {{current.traveldetail.length}}
         <button (click)="change_state(next_state)" *ngIf="next_state!=0">Next</button>
     </div>
     <!--PROPERTIES-->
-    <div *ngIf="doc_state==1">
-        <div class="form-group">
-            <label>Destination</label>
-            <input type="text" class="form-control" name="destination" [(ngModel)]="current.destination" required>
+    <div *ngIf="doc_state==1" [@flyInOut]="doc_state==1">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+                <div><label>Destination</label></div>
+                <div><input pInputText type="text" name="destination" [(ngModel)]="current.destination" required></div>
+            </div>
         </div>
-        <div class="form-group">
-            <label>From</label>
-            <p-calendar class="form-control" [(ngModel)]="current.from"></p-calendar>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-6">
+                <div><label>From</label></div>
+                <div><p-calendar [(ngModel)]="current.from" class="width: 100%;"></p-calendar></div>
+            </div>
+            <div class="ui-grid-col-6">
+                <div><label>To</label></div>
+                <div><p-calendar [(ngModel)]="current.to"></p-calendar></div>
+            </div>
         </div>
-        <div class="form-group">
-            <label>To</label>
-            <p-calendar class="form-control" [(ngModel)]="current.to"></p-calendar>
-        </div>
-        <div class="form-group">
-            <label>Reason</label>
-            <input type="text" class="form-control" name="reason" [(ngModel)]="current.reason" required>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+                <div><label>Reason</label></div>
+                <div><input pInputText type="text" name="reason" [(ngModel)]="current.reason" required></div>
+            </div>
         </div>
     </div>
     <!--TRAVEL AGENCY QUESTION 1-->
-    <div *ngIf="doc_state==2">
-        Would you like the Travel Agency to book your travel?
-        <br />
-        <button (click)="change_state(5)">No</button><!--hotel question-->
-        <button (click)="new_traveldetail(4)">Yes</button>
+    <div *ngIf="doc_state==2" class="ui-grid-row" [@flyInOut]="doc_state==2">
+        <div class="ui-grid-row" style="text-align:center;">
+            Would you like the Travel Agency to book your travel?
+        </div>
+        <div class="ui-grid-row" style="text-align: center;">
+            <button (click)="change_state(5)">No</button><!--hotel question-->
+            <button (click)="new_traveldetail(4)">Yes</button>
+        </div>
     </div>
     <!--TRAVEL AGENCY LIST-->
-    <div *ngIf="doc_state==3">
+    <div *ngIf="doc_state==3" [@flyInOut]="doc_state==3">
         <p-dataList [value]="current.traveldetail" >
             <header>
                 Travel Agency <button (click)="new_traveldetail()">New</button>
@@ -78,7 +87,7 @@
         </p-dataList>
     </div>
     <!--TRAVEL AGENCY EDITION-->
-    <div *ngIf="doc_state==4">
+    <div *ngIf="doc_state==4" [@flyInOut]="doc_state==4">
         TRAVEL AGENCY EDITION
         <div class="form-group">
             <label>Origin</label>
@@ -117,11 +126,14 @@
         <button (click)="save_traveldetail()">Save</button>
     </div>
     <!--HOTEL QUESTION 1-->
-    <div *ngIf="doc_state==5">
-        Would you like the Travel Agency to book your hotel?
-        <br />
-        <button (click)="change_state(7)">No</button> 
-        <button (click)="change_state(6)">Yes</button>
+    <div *ngIf="doc_state==5" class="ui-grid-row" [@flyInOut]="doc_state==5">
+        <div class="ui-grid-row" style="text-align: center;">
+            Would you like the Travel Agency to book your hotel?
+        </div>
+        <div class="ui-grid-row" style="text-align: center;">
+            <button (click)="change_state(7)">No</button>
+            <button (click)="change_state(6)">Yes</button>
+        </div>
     </div>
     <!--HOTEL EDITION -->
     <div *ngIf="doc_state==6">
@@ -131,11 +143,14 @@
         <button (click)="change_state(3)">Save</button>
     </div>
     <!--ADVANCE QUESTION 1-->
-    <div *ngIf="doc_state==7">
-        Would you like to get an advance?
-        <br />
-        <button (click)="change_state(10)">No</button>
-        <button (click)="change_state(9)">Yes</button>
+    <div *ngIf="doc_state==7" class="ui-grid-row">
+        <div class="ui-grid-row" style="text-align: center;">
+            Would you like to get an advance?
+        </div>
+        <div class="ui-grid-row" style="text-align: center;">
+            <button (click)="change_state(10)">No</button>
+            <button (click)="change_state(9)">Yes</button>
+        </div>
     </div>
     <!--ADVANCE LIST-->
     <div *ngIf="doc_state==8">

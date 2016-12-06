@@ -1,5 +1,5 @@
 ﻿import { Observable } from 'rxjs/Observable';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, trigger, transition, style, animate, state } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
@@ -18,6 +18,38 @@ import { DataListModule, DataTableModule, MenuItem, ContextMenuModule, DialogMod
         , ContextMenuModule
         , DialogModule
     ]
+    //, animations: [trigger('myAnimation', [transition(':enter', [style({ transform: 'translateX(100%), opacity: 0' }),animate('500ms', style({ transform: 'translateX(0), opacity: 1' }))])]]
+    , animations: [
+        trigger('flyInOut', [
+            //state('in', style({ transform: 'translateX(0)' })),
+            transition(':enter', [
+                style({ transform: 'translateX(-100%)' }),
+                animate(500)
+            ]),
+            transition(':leave', [
+                animate(500, style({ transform: 'translateX(100%)' }))
+            ])
+        ])
+    ]    
+    //,animations: [
+    //    trigger('translateTab', [
+    //        state('left', style({ transform: 'translate3d(-100%, 0, 0)' })),
+    //        state('left-origin-center', style({ transform: 'translate3d(0, 0, 0)' })),
+    //        state('right-origin-center', style({ transform: 'translate3d(0, 0, 0)' })),
+    //        state('center', style({ transform: 'translate3d(0, 0, 0)' })),
+    //        state('right', style({ transform: 'translate3d(100%, 0, 0)' })),
+    //        transition('* => left, * => right, left => center, right => center',
+    //            animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')),
+    //        transition('void => left-origin-center', [
+    //            style({ transform: 'translate3d(-100%, 0, 0)' }),
+    //            animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')
+    //        ]),
+    //        transition('void => right-origin-center', [
+    //            style({ transform: 'translate3d(100%, 0, 0)' }),
+    //            animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')
+    //        ])
+    //    ])
+    //]
 })
 export class TraveldocComponent implements OnInit {
 
@@ -26,8 +58,6 @@ export class TraveldocComponent implements OnInit {
 
     public doc_state: any = 1;
     public show_toolbar: any = 1;
-    //public show_prev: any = 0;
-    //public show_next: any = 1;
     public prev_state: any = 0;
     public next_state: any = 2;
 
@@ -89,13 +119,13 @@ export class TraveldocComponent implements OnInit {
             this.next_state = 0;
         } if (temp_state == 2 && this.current.traveldetail != undefined && this.current.traveldetail.length > 0) { //3 ta list
             this.doc_state = 3; this.doc_state = temp_state; console.log("ta list");
-            this.prev_state = 0;
-            this.next_state = 0;
-        } if (temp_state == 3 && (this.current.traveldetail == undefined || this.current.traveldetail.length <= 0 )) { //3 ta list
+            this.prev_state = 1;
+            this.next_state = 8;
+        } if (temp_state == 3 && (this.current.traveldetail == undefined || this.current.traveldetail.length == 0 )) { //3 ta list
             this.doc_state = 2; console.log("ta question");
             this.prev_state = 1;
             this.next_state = 0;
-        } if (temp_state == 3 && (this.current.traveldetail != undefined || this.current.traveldetail.length > 0)) { //3 ta list
+        } if (temp_state == 3 && this.current.traveldetail != undefined && this.current.traveldetail.length > 0) { //3 ta list
             this.doc_state = 3; console.log("ta list");
             this.prev_state = 1;
             this.next_state = 8;
@@ -103,7 +133,7 @@ export class TraveldocComponent implements OnInit {
             this.doc_state = temp_state;
             this.prev_state = 0;
             this.next_state = 0; //this.currentdetail = { };
-        } if (temp_state == 5 && (this.current.traveldetail == undefined || this.current.traveldetail.length > 0)) { //5 hotel question
+        } if (temp_state == 5 && (this.current.traveldetail == undefined || this.current.traveldetail.length <= 0)) { //5 hotel question
             this.doc_state = 5;
             this.prev_state = 0;
             this.next_state = 0;
@@ -111,7 +141,7 @@ export class TraveldocComponent implements OnInit {
             this.doc_state = temp_state;
             this.prev_state = 0;
             this.next_state = 0;
-        } if (temp_state == 7 && (this.current.advancedetail == undefined || this.current.advancedetail.length > 0)) { //7 advance question
+        } if (temp_state == 7 && (this.current.advancedetail == undefined || this.current.advancedetail.length <= 0)) { //7 advance question
             this.doc_state = temp_state;
             this.prev_state = 3;
             this.next_state = 0;
@@ -131,10 +161,6 @@ export class TraveldocComponent implements OnInit {
             this.doc_state = temp_state;
             this.prev_state = 8;
             this.next_state = 0;
-
-        } else {
-            //this.doc_state = temp_state;
-            console.log("nada de cambio");
         }
 
     }

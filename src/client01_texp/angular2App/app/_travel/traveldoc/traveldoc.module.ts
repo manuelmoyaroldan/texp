@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TraveldocComponent } from './traveldoc.component';
 import { TraveldocRoutingModule } from './traveldoc-routing.module';
 
-import { DataListModule, DataTableModule, ContextMenuModule, MenuItem, DialogModule, ButtonModule, DropdownModule, CalendarModule, RadioButtonModule } from 'primeng/primeng';
+import { DataListModule, DataTableModule, ContextMenuModule, MenuItem, DialogModule, ButtonModule, DropdownModule, CalendarModule, RadioButtonModule, InputTextModule } from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -20,6 +20,7 @@ import { DataListModule, DataTableModule, ContextMenuModule, MenuItem, DialogMod
         , DropdownModule
         , CalendarModule
         , RadioButtonModule
+        , InputTextModule
     ],
     declarations: [TraveldocComponent]
 })

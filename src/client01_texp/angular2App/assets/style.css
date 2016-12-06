@@ -365,7 +365,8 @@ th {
 
 label {
   display: inline-block;
-  margin-bottom: .5rem; }
+  /*margin-bottom: .5rem;*/ 
+}
 
 button:focus {
   outline: 1px dotted;
