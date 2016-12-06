@@ -42,7 +42,7 @@
                 <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-3" style="text-align:center"><i class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer;float:left;margin-top:40px"></i><!--<img src="showcase/resources/demo/images/car/{{car.brand}}-big.gif">--></div>
-                        <div class="ui-grid-col-9">
+                        <div class="ui-grid-col-3">
                             <div class="ui-grid ui-grid-responsive ui-fluid">
                                 <!--<div class="ui-grid-row">
                                     <div class="ui-grid-col-2">Vin: </div>
@@ -62,6 +62,16 @@
                                 </div>-->
                             </div>
                         </div>
+                        <div class="ui-grid-col-3" style="text-align:center">
+                            {{detail.isRoundTrip}}
+                        </div>
+                        <div class="ui-grid-col-3" >
+                            <div class="ui-grid-row" style="float:right">
+                                <div ><i class="fa fa-edit" (click)="edit_traveldetail(detail)" style="cursor:pointer;float:left;margin-top:40px"></i></div>
+                                <div ><i class="fa fa-remove" (click)="delete_traveldetail(detail)" style="cursor:pointer;float:left;margin-top:40px"></i></div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </template>
@@ -84,7 +94,10 @@
         </div>
         <div class="form-group">
             <label>Round Trip</label>
-            <!--<input type="text" class="form-control" name="destination" [(ngModel)]="currentdetail.destination" required>-->
+            <div class="ui-g" style="width:250px;margin-bottom:10px">
+                <div class="ui-g-12"><p-radioButton name="group2" value="true" label="Round Trip" [(ngModel)]="currentdetail.isRoundTrip"></p-radioButton></div>
+                <div class="ui-g-12"><p-radioButton name="group2" value="false" label="One Way" [(ngModel)]="currentdetail.isRoundTrip"></p-radioButton></div>
+            </div>            
         </div>
 
         <div class="form-group">

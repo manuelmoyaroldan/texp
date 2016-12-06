@@ -62,7 +62,7 @@ export class TraveldocComponent implements OnInit {
                     () => console.log('Get travel completed'));
             } else {
                 //create travel
-                this.current = { travelId: 0, destination: '', phaseId: 1, traveldetail: [] };
+                this.current = { travelId: 0, destination: '', phaseId: 1, traveldetail: [], advancedetail: [] };
             }
             // In a real app: dispatch action to load the details here.
         });
@@ -92,27 +92,27 @@ export class TraveldocComponent implements OnInit {
             this.doc_state = temp_state; console.log("properties");
             this.show_prev = 0; this.prev_state = 0;
             this.show_next = 1; this.next_state = 3;
-        } if (temp_state == 2 && (this.current.traveldetail == undefined || this.current.traveldetail == 0)) { //2 ta question
+        } if (temp_state == 2 && (this.current.traveldetail == undefined || this.current.traveldetail.length == 0)) { //2 ta question
             this.doc_state = temp_state; console.log("ta question");
             this.show_prev = 1; this.prev_state = 1;
             this.show_next = 0; this.next_state = 0;
-        } if (temp_state == 2 && this.current.traveldetail != undefined && this.current.traveldetail.count > 0) { //3 ta list
+        } if (temp_state == 2 && this.current.traveldetail != undefined && this.current.traveldetail.length > 0) { //3 ta list
             this.doc_state = 3; this.doc_state = temp_state; console.log("ta list");
             this.show_prev = 0; this.prev_state = 0;
             this.show_next = 0; this.next_state = 0;
-        } if (temp_state == 3 && (this.current.traveldetail == undefined || this.current.traveldetail <= 0 )) { //3 ta list
+        } if (temp_state == 3 && (this.current.traveldetail == undefined || this.current.traveldetail.length <= 0 )) { //3 ta list
             this.doc_state = 2; console.log("ta question");
             this.show_prev = 1; this.prev_state = 1;
             this.show_next = 0; this.next_state = 0;
-        } if (temp_state == 3 && (this.current.traveldetail != undefined || this.current.traveldetail > 0)) { //3 ta list
+        } if (temp_state == 3 && (this.current.traveldetail != undefined || this.current.traveldetail.length > 0)) { //3 ta list
             this.doc_state = 3; console.log("ta list");
             this.show_prev = 1; this.prev_state = 1;
-            this.show_next = 0; this.next_state = 0;
+            this.show_next = 0; this.next_state = 8;
         } if (temp_state == 4) { //4 ta edition
             this.doc_state = temp_state;
             this.show_prev = 0; this.prev_state = 0;
             this.show_next = 0; this.next_state = 0; this.currentdetail = { };
-        } if (temp_state == 5 && (this.current.traveldetail == undefined || this.current.traveldetail > 0)) { //5 hotel question
+        } if (temp_state == 5 && (this.current.traveldetail == undefined || this.current.traveldetail.length > 0)) { //5 hotel question
             this.doc_state = 5;
             this.show_prev = 0; this.prev_state = 0;
             this.show_next = 0; this.next_state = 0;
@@ -120,15 +120,15 @@ export class TraveldocComponent implements OnInit {
             this.doc_state = temp_state;
             this.show_prev = 0; this.prev_state = 0;
             this.show_next = 0; this.next_state = 0;
-        } if (temp_state == 7 && (this.current.advancedetail == undefined || this.current.advancedetail > 0)) { //7 advance question
+        } if (temp_state == 7 && (this.current.advancedetail == undefined || this.current.advancedetail.length > 0)) { //7 advance question
             this.doc_state = temp_state;
             this.show_prev = 1; this.prev_state = 3;
             this.show_next = 0; this.next_state = 0;
-        } if (temp_state == 8 && this.current.traveldetail != undefined && this.current.traveldetail > 0) { //8 advance list with data
+        } if (temp_state == 8 && this.current.advancedetail != undefined && this.current.advancedetail.length > 0) { //8 advance list with data
             this.doc_state = 7;
             this.show_prev = 1; this.prev_state = 3;
             this.show_next = 0; this.next_state = 10;
-        } if (temp_state == 8 && (this.current.traveldetail == undefined || this.current.traveldetail.count <= 0)) { //8 advance list wo data
+        } if (temp_state == 8 && (this.current.advancedetail == undefined || this.current.advancedetail.length<= 0)) { //8 advance list wo data
             this.doc_state = 7;
             this.show_prev = 1; this.prev_state = 3;
             this.show_next = 0; this.next_state = 0;
@@ -159,6 +159,10 @@ export class TraveldocComponent implements OnInit {
 
         this.current.traveldetail.push(this.currentdetail);
         this.change_state(3);
+    }
+    edit_traveldetail(value: any) {
+        this.currentdetail = value;
+        this.change_state(4);
     }
 
     onRowSelect(event: any) {
