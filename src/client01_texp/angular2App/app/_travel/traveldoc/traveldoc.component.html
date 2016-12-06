@@ -30,13 +30,13 @@
         Would you like the Travel Agency to book your travel?
         <br />
         <button (click)="change_state(5)">No</button><!--hotel question-->
-        <button (click)="change_state(4)">Yes</button>
+        <button (click)="new_traveldetail(4)">Yes</button>
     </div>
     <!--TRAVEL AGENCY LIST-->
     <div *ngIf="doc_state==3">
         <p-dataList [value]="current.traveldetail" >
             <header>
-                Travel Agency
+                Travel Agency <button (click)="new_traveldetail()">New</button>
             </header>
             <template let-detail>
                 <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">

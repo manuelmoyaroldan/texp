@@ -26,15 +26,17 @@ export class TraveldocComponent implements OnInit {
 
     public doc_state: any = 1;
     public show_toolbar: any = 1;
-    public show_prev: any = 0;
-    public show_next: any = 1;
+    //public show_prev: any = 0;
+    //public show_next: any = 1;
     public prev_state: any = 0;
     public next_state: any = 2;
 
-    public list: any[] = [];
     public selected: any = {};
     public current: any = {};
+
+    public selecteddetail: any = {};
     public currentdetail: any = {};
+
 
     public menu_items: MenuItem[];
     public show_dialog: boolean = false;
@@ -66,18 +68,7 @@ export class TraveldocComponent implements OnInit {
             }
             // In a real app: dispatch action to load the details here.
         });
-        //this._Service
-        //    .getAll()
-        //    .subscribe(data => this.list = data,
-        //    error => console.log(error),
-        //    () => console.log('Get all completed.'));
 
-        this.menu_items = [
-            { label: 'Edit', icon: 'fa-edit', command: (event: any) => this.click_Edit() },
-            { label: 'Activate', icon: 'fa-check-circle-o', command: (event: any) => this.activate() },
-            { label: 'DeActivate', icon: 'fa-circle-o', command: (event: any) => this.deactivate() },
-            { label: 'Delete', icon: 'fa-close', command: (event: any) => this.delete() }
-        ];
     }
 
     change_state(value: any) {
@@ -90,56 +81,56 @@ export class TraveldocComponent implements OnInit {
         //console.log(this.current.traveldetail.length);
         if (temp_state == 1) {
             this.doc_state = temp_state; console.log("properties");
-            this.show_prev = 0; this.prev_state = 0;
-            this.show_next = 1; this.next_state = 3;
+            this.prev_state = 0;
+            this.next_state = 3;
         } if (temp_state == 2 && (this.current.traveldetail == undefined || this.current.traveldetail.length == 0)) { //2 ta question
             this.doc_state = temp_state; console.log("ta question");
-            this.show_prev = 1; this.prev_state = 1;
-            this.show_next = 0; this.next_state = 0;
+            this.prev_state = 1;
+            this.next_state = 0;
         } if (temp_state == 2 && this.current.traveldetail != undefined && this.current.traveldetail.length > 0) { //3 ta list
             this.doc_state = 3; this.doc_state = temp_state; console.log("ta list");
-            this.show_prev = 0; this.prev_state = 0;
-            this.show_next = 0; this.next_state = 0;
+            this.prev_state = 0;
+            this.next_state = 0;
         } if (temp_state == 3 && (this.current.traveldetail == undefined || this.current.traveldetail.length <= 0 )) { //3 ta list
             this.doc_state = 2; console.log("ta question");
-            this.show_prev = 1; this.prev_state = 1;
-            this.show_next = 0; this.next_state = 0;
+            this.prev_state = 1;
+            this.next_state = 0;
         } if (temp_state == 3 && (this.current.traveldetail != undefined || this.current.traveldetail.length > 0)) { //3 ta list
             this.doc_state = 3; console.log("ta list");
-            this.show_prev = 1; this.prev_state = 1;
-            this.show_next = 0; this.next_state = 8;
+            this.prev_state = 1;
+            this.next_state = 8;
         } if (temp_state == 4) { //4 ta edition
             this.doc_state = temp_state;
-            this.show_prev = 0; this.prev_state = 0;
-            this.show_next = 0; this.next_state = 0; this.currentdetail = { };
+            this.prev_state = 0;
+            this.next_state = 0; //this.currentdetail = { };
         } if (temp_state == 5 && (this.current.traveldetail == undefined || this.current.traveldetail.length > 0)) { //5 hotel question
             this.doc_state = 5;
-            this.show_prev = 0; this.prev_state = 0;
-            this.show_next = 0; this.next_state = 0;
+            this.prev_state = 0;
+            this.next_state = 0;
         } if (temp_state == 6) { //6 hotel edition
             this.doc_state = temp_state;
-            this.show_prev = 0; this.prev_state = 0;
-            this.show_next = 0; this.next_state = 0;
+            this.prev_state = 0;
+            this.next_state = 0;
         } if (temp_state == 7 && (this.current.advancedetail == undefined || this.current.advancedetail.length > 0)) { //7 advance question
             this.doc_state = temp_state;
-            this.show_prev = 1; this.prev_state = 3;
-            this.show_next = 0; this.next_state = 0;
+            this.prev_state = 3;
+            this.next_state = 0;
         } if (temp_state == 8 && this.current.advancedetail != undefined && this.current.advancedetail.length > 0) { //8 advance list with data
             this.doc_state = 7;
-            this.show_prev = 1; this.prev_state = 3;
-            this.show_next = 0; this.next_state = 10;
+            this.prev_state = 3;
+            this.next_state = 10;
         } if (temp_state == 8 && (this.current.advancedetail == undefined || this.current.advancedetail.length<= 0)) { //8 advance list wo data
             this.doc_state = 7;
-            this.show_prev = 1; this.prev_state = 3;
-            this.show_next = 0; this.next_state = 0;
+            this.prev_state = 3;
+            this.next_state = 0;
         } if (temp_state == 9) { //9 advance edition
             this.doc_state = temp_state;
-            this.show_prev = 0; this.prev_state = 0;
-            this.show_next = 0; this.next_state = 0;
+            this.prev_state = 0;
+            this.next_state = 0;
         } if (temp_state == 10) { //10 request auth
             this.doc_state = temp_state;
-            this.show_prev = 1; this.prev_state = 8;
-            this.show_next = 0; this.next_state = 0;
+            this.prev_state = 8;
+            this.next_state = 0;
 
         } else {
             //this.doc_state = temp_state;
@@ -147,7 +138,7 @@ export class TraveldocComponent implements OnInit {
         }
 
     }
-
+    
     save_traveldetail(event: any) {
 
         if (this.currentdetail.traveldetailId == 0 || this.currentdetail.traveldetailId==null) { //new
@@ -155,83 +146,21 @@ export class TraveldocComponent implements OnInit {
                 this.current.traveldetail = [];
             }
             this.currentdetail.traveldetailId = -1;
-        } 
-
-        this.current.traveldetail.push(this.currentdetail);
+            this.current.traveldetail.push(this.currentdetail);
+        } else {
+            Object.assign(this.selecteddetail, this.currentdetail);
+        }
+        
         this.change_state(3);
     }
+    new_traveldetail(event: any) {
+        this.currentdetail = {};
+        this.change_state(4);
+    }
     edit_traveldetail(value: any) {
-        this.currentdetail = value;
+        this.selecteddetail = value;
+        this.currentdetail = JSON.parse(JSON.stringify(this.selecteddetail));
         this.change_state(4);
     }
 
-    onRowSelect(event: any) {
-    }
-
-    onRowUnselect(event: any) {
-        this.selected = {};
-    }
-
-
-    click_Edit() {
-        //this.current = Object.assign({}, this.selected);
-        this.current = JSON.parse(JSON.stringify(this.selected));
-
-        this.show_dialog = true;
-    }
-
-    click_Add(event: any) {
-        this.selected = {};
-        this.current = {};
-        this.show_dialog = true;
-    }
-
-    onCancel(event: any) {
-        this.show_dialog = false;
-    }
-
-    onSubmit() {
-        if (this.selected.travelId != undefined) { //update
-            this._Service.update(this.current)
-                .subscribe(data => { this.show_dialog = false; this.selected = Object.assign({}, this.current); });
-
-        } else { //create
-            this._Service.create(this.current)
-                .subscribe(data => { this.list.push(data); this.show_dialog = false; this.selected = data; });
-        }
-    }
-
-    deactivate() {
-        this._Service.deactivate(this.selected)
-            .subscribe((status: any) => {
-                if (status) {
-                    console.log("updated");
-                    this.selected.isActive = false;
-                }
-                else {
-                    console.log("update error");
-                }
-            });
-    }
-    activate() {
-        this._Service.activate(this.selected)
-            .subscribe((status: any) => {
-                if (status) {
-                    console.log("updated");
-                    this.selected.isActive = true;
-                }
-                else {
-                    console.log("update error");
-                }
-            });
-    }
-
-    delete() {
-        this._Service
-            .delete(this.selected)
-            .then(() => {
-                this.list = this.list.filter(h => h.travelId !== this.selected.travelId);
-                this.selected = {};
-            });
-    }
 }
