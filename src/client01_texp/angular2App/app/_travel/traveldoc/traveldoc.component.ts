@@ -23,11 +23,11 @@ import { DataListModule, DataTableModule, MenuItem, ContextMenuModule, DialogMod
         trigger('flyInOut', [
             //state('in', style({ transform: 'translateX(0)' })),
             transition(':enter', [
-                style({ transform: 'translateX(-100%)' }),
+                style({ transform: 'translateX(100%)' }),
                 animate(500)
             ]),
             transition(':leave', [
-                animate(500, style({ transform: 'translateX(100%)' }))
+                animate(500, style({ transform: 'translateX(-100%)' }))
             ])
         ])
     ]    
