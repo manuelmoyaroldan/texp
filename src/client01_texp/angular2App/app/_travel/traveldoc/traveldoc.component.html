@@ -6,171 +6,181 @@
         {{current.traveldetail.length}}
         <button (click)="change_state(next_state)" *ngIf="next_state!=0">Next</button>
     </div>
-    <!--PROPERTIES-->
-    <div *ngIf="doc_state==1" [@flyInOut]="doc_state==1">
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-12">
-                <div><label>Destination</label></div>
-                <div><input pInputText type="text" name="destination" [(ngModel)]="current.destination" required></div>
-            </div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-6">
-                <div><label>From</label></div>
-                <div><p-calendar [(ngModel)]="current.from" class="width: 100%;"></p-calendar></div>
-            </div>
-            <div class="ui-grid-col-6">
-                <div><label>To</label></div>
-                <div><p-calendar [(ngModel)]="current.to"></p-calendar></div>
-            </div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-12">
-                <div><label>Reason</label></div>
-                <div><input pInputText type="text" name="reason" [(ngModel)]="current.reason" required></div>
-            </div>
-        </div>
-    </div>
-    <!--TRAVEL AGENCY QUESTION 1-->
-    <div *ngIf="doc_state==2" class="ui-grid-row" [@flyInOut]="doc_state==2">
-        <div class="ui-grid-row" style="text-align:center;">
-            Would you like the Travel Agency to book your travel?
-        </div>
-        <div class="ui-grid-row" style="text-align: center;">
-            <button (click)="change_state(5)">No</button><!--hotel question-->
-            <button (click)="new_traveldetail(4)">Yes</button>
-        </div>
-    </div>
-    <!--TRAVEL AGENCY LIST-->
-    <div *ngIf="doc_state==3" [@flyInOut]="doc_state==3">
-        <p-dataList [value]="current.traveldetail" >
-            <header>
-                Travel Agency <button (click)="new_traveldetail()">New</button>
-            </header>
-            <template let-detail>
-                <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">
-                    <div class="ui-grid-row">
-                        <div class="ui-grid-col-3" style="text-align:center"><i class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer;float:left;margin-top:40px"></i><!--<img src="showcase/resources/demo/images/car/{{car.brand}}-big.gif">--></div>
-                        <div class="ui-grid-col-3">
-                            <div class="ui-grid ui-grid-responsive ui-fluid">
-                                <!--<div class="ui-grid-row">
-                                    <div class="ui-grid-col-2">Vin: </div>
-                                    <div class="ui-grid-col-10">{{detail.traveldetailId}}</div>
-                                </div>-->
-                                <div class="ui-grid-row">
-                                    <div class="ui-grid-col-2">Origin </div>
-                                    <div class="ui-grid-col-10">{{detail.origin}}</div>
-                                </div>
-                                <div class="ui-grid-row">
-                                    <div class="ui-grid-col-2">Destination </div>
-                                    <div class="ui-grid-col-10">{{detail.destination}}</div>
-                                </div>
-                                <!--<div class="ui-grid-row">
-                                    <div class="ui-grid-col-2">Color: </div>
-                                    <div class="ui-grid-col-10">{{car.color}}</div>
-                                </div>-->
-                            </div>
-                        </div>
-                        <div class="ui-grid-col-3" style="text-align:center">
-                            {{detail.isRoundTrip}}
-                        </div>
-                        <div class="ui-grid-col-3" >
-                            <div class="ui-grid-row" style="float:right">
-                                <div ><i class="fa fa-edit" (click)="edit_traveldetail(detail)" style="cursor:pointer;float:left;margin-top:40px"></i></div>
-                                <div ><i class="fa fa-remove" (click)="delete_traveldetail(detail)" style="cursor:pointer;float:left;margin-top:40px"></i></div>
-                            </div>
-                        </div>
-
+    <!--TAB GROUP-->
+    <div style="overflow-x: hidden;">
+        <!--PROPERTIES-->
+        <div *ngIf="doc_state==1" [@flyInOut]="getState()">
+            <div class="ui-grid-row">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12">
+                        <div><label>Destination</label></div>
+                        <div><input pInputText type="text" name="destination" [(ngModel)]="current.destination" required></div>
                     </div>
                 </div>
-            </template>
-        </p-dataList>
-    </div>
-    <!--TRAVEL AGENCY EDITION-->
-    <div *ngIf="doc_state==4" [@flyInOut]="doc_state==4">
-        TRAVEL AGENCY EDITION
-        <div class="form-group">
-            <label>Origin</label>
-            <input type="text" class="form-control" name="origin" [(ngModel)]="currentdetail.origin" required>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-6">
+                        <div><label>From</label></div>
+                        <div><p-calendar [(ngModel)]="current.from" class="width: 100%;"></p-calendar></div>
+                    </div>
+                    <div class="ui-grid-col-6">
+                        <div><label>To</label></div>
+                        <div><p-calendar [(ngModel)]="current.to"></p-calendar></div>
+                    </div>
+                </div>
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12">
+                        <div><label>Reason</label></div>
+                        <div><input pInputText type="text" name="reason" [(ngModel)]="current.reason" required></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Destination</label>
-            <input type="text" class="form-control" name="destination" [(ngModel)]="currentdetail.destination" required>
+        <!--TRAVEL AGENCY QUESTION 1-->
+        <div *ngIf="doc_state==2" [@flyInOut]="getState()">
+            <div class="ui-grid-row">
+                <div class="ui-grid-row" style="text-align:center;">
+                    Would you like the Travel Agency to book your travel?
+                </div>
+                <div class="ui-grid-row" style="text-align: center;">
+                    <button (click)="change_state(5)">No</button><!--hotel question-->
+                    <button (click)="new_traveldetail(4)">Yes</button>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Way of Transport</label>
-            <!--<input type="text" class="form-control" name="destination" [(ngModel)]="currentdetail.destination" required>-->
-        </div>
-        <div class="form-group">
-            <label>Round Trip</label>
-            <div class="ui-g" style="width:250px;margin-bottom:10px">
-                <div class="ui-g-12"><p-radioButton name="group2" value="true" label="Round Trip" [(ngModel)]="currentdetail.isRoundTrip"></p-radioButton></div>
-                <div class="ui-g-12"><p-radioButton name="group2" value="false" label="One Way" [(ngModel)]="currentdetail.isRoundTrip"></p-radioButton></div>
-            </div>            
-        </div>
+        <!--TRAVEL AGENCY LIST-->
+        <div *ngIf="doc_state==3" [@flyInOut]="getState()">
+            <p-dataList [value]="current.traveldetail">
+                <header>
+                    Travel Agency <button (click)="new_traveldetail()">New</button>
+                </header>
+                <template let-detail>
+                    <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;border-bottom:1px solid #D5D5D5;">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-3" style="text-align:center"><i class="fa fa-search" (click)="selectCar(car)" style="cursor:pointer;float:left;margin-top:40px"></i><!--<img src="showcase/resources/demo/images/car/{{car.brand}}-big.gif">--></div>
+                            <div class="ui-grid-col-3">
+                                <div class="ui-grid ui-grid-responsive ui-fluid">
+                                    <!--<div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">Vin: </div>
+                                        <div class="ui-grid-col-10">{{detail.traveldetailId}}</div>
+                                    </div>-->
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">Origin </div>
+                                        <div c
+                                        <div class="ui-grid-col-10">{{detail.origin}}</div>
+                                    </div>
+                                    <div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">Destination </div>
+                                        <div class="ui-grid-col-10">{{detail.destination}}</div>
+                                    </div>
+                                    <!--<div class="ui-grid-row">
+                                        <div class="ui-grid-col-2">Color: </div>
+                                        <div class="ui-grid-col-10">{{car.color}}</div>
+                                    </div>-->
+                                </div>
+                            </div>
+                            <div class="ui-grid-col-3" style="text-align:center">
 
-        <div class="form-group">
-            <label>From</label>
-            <p-calendar class="form-control" [(ngModel)]="currentdetail.from"></p-calendar>
-        </div>
-        <div class="form-group">
-            <label>To</label>
-            <p-calendar class="form-control" [(ngModel)]="currentdetail.to"></p-calendar>
-        </div>
-        <div class="form-group">
-            <label>Reason</label>
-            <input type="text" class="form-control" name="reason" [(ngModel)]="current.reason" required>
-        </div>
+                            {{detail.isRoundTrip}}
+                            </div>
+                            <div class="ui-grid-col-3">
+                                <div class="ui-grid-row" style="float:right">
+                                    <div><i class="fa fa-edit" (click)="edit_traveldetail(detail)" style="cursor:pointer;float:left;margin-top:40px"></i></div>
+                                    <div><i class="fa fa-remove" (click)="delete_traveldetail(detail)" style="cursor:pointer;float:left;margin-top:40px"></i></div>
+                                </div>
+                            </div>
 
-        <button (click)="change_state(3)">Cancel</button>
-        <button (click)="save_traveldetail()">Save</button>
-    </div>
-    <!--HOTEL QUESTION 1-->
-    <div *ngIf="doc_state==5" class="ui-grid-row" [@flyInOut]="doc_state==5">
-        <div class="ui-grid-row" style="text-align: center;">
-            Would you like the Travel Agency to book your hotel?
+                        </div>
+                    </div>
+                </template>
+            </p-dataList>
         </div>
-        <div class="ui-grid-row" style="text-align: center;">
-            <button (click)="change_state(7)">No</button>
-            <button (click)="change_state(6)">Yes</button>
+        <!--TRAVEL AGENCY EDITION-->
+        <div *ngIf="doc_state==4" [@flyInOut]="getState()">
+            TRAVEL AGENCY EDITION
+            <div class="form-group">
+                <label>Origin</label>
+                <input type="text" class="form-control" name="origin" [(ngModel)]="currentdetail.origin" required>
+            </div>
+            <div class="form-group">
+                <label>Destination</label>
+                <input type="text" class="form-control" name="destination" [(ngModel)]="currentdetail.destination" required>
+            </div>
+            <div class="form-group">
+                <label>Way of Transport</label>
+                <!--<input type="text" class="form-control" name="destination" [(ngModel)]="currentdetail.destination" required>-->
+            </div>
+            <div class="form-group">
+                <label>Round Trip</label>
+                <div class="ui-g" style="width:250px;margin-bottom:10px">
+                    <div class="ui-g-12"><p-radioButton name="group2" value="true" label="Round Trip" [(ngModel)]="currentdetail.isRoundTrip"></p-radioButton></div>
+                    <div class="ui-g-12"><p-radioButton name="group2" value="false" label="One Way" [(ngModel)]="currentdetail.isRoundTrip"></p-radioButton></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>From</label>
+                <p-calendar class="form-control" [(ngModel)]="currentdetail.from"></p-calendar>
+            </div>
+            <div class="form-group">
+                <label>To</label>
+                <p-calendar class="form-control" [(ngModel)]="currentdetail.to"></p-calendar>
+            </div>
+            <div class="form-group">
+                <label>Reason</label>
+                <input type="text" class="form-control" name="reason" [(ngModel)]="current.reason" required>
+            </div>
+
+            <button (click)="change_state(3)">Cancel</button>
+            <button (click)="save_traveldetail()">Save</button>
         </div>
-    </div>
-    <!--HOTEL EDITION -->
-    <div *ngIf="doc_state==6">
-        HOTEL EDITION
-        <br />
-        <button (click)="change_state(5)">Cancel</button>
-        <button (click)="change_state(3)">Save</button>
-    </div>
-    <!--ADVANCE QUESTION 1-->
-    <div *ngIf="doc_state==7" class="ui-grid-row">
-        <div class="ui-grid-row" style="text-align: center;">
-            Would you like to get an advance?
+        <!--HOTEL QUESTION 1-->
+        <div *ngIf="doc_state==5" [@flyInOut]="getState()">
+            <div class="ui-grid-row">
+                <div class="ui-grid-row" style="text-align: center;">
+                    Would you like the Travel Agency to book your hotel?
+                </div>
+                <div class="ui-grid-row" style="text-align: center;">
+                    <button (click)="change_state(7)">No</button>
+                    <button (click)="change_state(6)">Yes</button>
+                </div>
+            </div>
         </div>
-        <div class="ui-grid-row" style="text-align: center;">
-            <button (click)="change_state(10)">No</button>
-            <button (click)="change_state(9)">Yes</button>
+        <!--HOTEL EDITION -->
+        <div *ngIf="doc_state==6" [@flyInOut]="getState()">
+            HOTEL EDITION
+            <br />
+            <button (click)="change_state(5)">Cancel</button>
+            <button (click)="change_state(3)">Save</button>
         </div>
-    </div>
-    <!--ADVANCE LIST-->
-    <div *ngIf="doc_state==8">
-        TRAVEL AGENCY LIST
-    </div>
-    <!--ADVANCE EDITION-->
-    <div *ngIf="doc_state==9">
-        TRAVEL AGENCY EDITION
-        <br />
-        <button (click)="change_state(8)">Cancel</button>
-        <button (click)="change_state(10)">Save</button>
-    </div>
-    <!--REQUEST AUTHORIZATION -->
-    <div *ngIf="doc_state==10">
-        Would you like to request authorization?
-        <br />
-        <button >No</button>
-        <button >Yes</button>
-        <!--<button (click)="prev_state(1)">No</button>
-        <button (click)="next_state(2)">Yes</button>-->
+        <!--ADVANCE QUESTION 1-->
+        <div *ngIf="doc_state==7" class="ui-grid-row" [@flyInOut]="getState()">
+            <div class="ui-grid-row" style="text-align: center;">
+                Would you like to get an advance?
+            </div>
+            <div class="ui-grid-row" style="text-align: center;">
+                <button (click)="change_state(10)">No</button>
+                <button (click)="change_state(9)">Yes</button>
+            </div>
+        </div>
+        <!--ADVANCE LIST-->
+        <div *ngIf="doc_state==8" [@flyInOut]="getState()">
+            TRAVEL AGENCY LIST
+        </div>
+        <!--ADVANCE EDITION-->
+        <div *ngIf="doc_state==9" [@flyInOut]="getState()">
+            TRAVEL AGENCY EDITION
+            <br />
+            <button (click)="change_state(8)">Cancel</button>
+            <button (click)="change_state(10)">Save</button>
+        </div>
+        <!--REQUEST AUTHORIZATION -->
+        <div *ngIf="doc_state==10" [@flyInOut]="getState()">
+            Would you like to request authorization?
+            <br />
+            <button>No</button>
+            <button>Yes</button>
+            <!--<button (click)="prev_state(1)">No</button>
+            <button (click)="next_state(2)">Yes</button>-->
+        </div>
     </div>
 
 
